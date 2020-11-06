@@ -20,7 +20,7 @@ class ImageController extends Controller
      */
     public function __invoke(Request $request, string $size, string $file)
     {
-        abort_unless(in_array($size, config('imageresizer-extension.sizes')), 400, 'The requested size is not whitelisted.');
+        abort_unless(in_array($size, config('imageresizer.sizes')), 400, 'The requested size is not whitelisted.');
 
         $resizedPath = 'resizes/'.$size.'/'.$file;
 
