@@ -16,7 +16,7 @@ class ImageResizerServiceProvider extends ServiceProvider
     public function boot()
     {
         Route::middleware('web')->group(function () {
-            Route::get('image/{size}/{file}', ImageController::class)->where('file', '.*');
+            Route::get('storage/resizes/{size}/{file}', ImageController::class)->where('file', '.*');
         });
 
         $this->mergeConfigFrom(__DIR__.'/config/imageresizer.php', 'imageresizer');
