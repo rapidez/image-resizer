@@ -22,7 +22,14 @@ class ImageController extends Controller
     {
         abort_unless(in_array($size, config('imageresizer.sizes')), 400, 'The requested size is not whitelisted.');
 
-        $resizedPath = 'resizes/'.$size.'/'.$file;
+        if (
+            ($format = config('imageresizer.output_format')) !== null &&
+            ($info = pathinfo($file))['extension'] !== $format
+        ) {
+            $resizedFile = $info['dirname'] . '/' . $info['filename'] . '.' . $format;
+        }
+
+        $resizedPath = 'resizes/'.$size.'/'.($resizedFile ?? $file);
 
         if (!Storage::exists('public/'.$resizedPath)) {
             $remoteFile = config('rapidez.media_url').'/'.$file;
@@ -40,6 +47,10 @@ class ImageController extends Controller
                 $image->fit(MANIPULATIONS::FIT_CONTAIN, $width, $height);
             } else {
                 $image->width($width);
+            }
+
+            if (($format = config('imageresizer.output_format')) !== null) {
+                $image->format($format);
             }
 
             if (!is_dir(storage_path('app/public/'.pathinfo($resizedPath, PATHINFO_DIRNAME)))) {
