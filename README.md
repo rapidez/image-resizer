@@ -22,3 +22,7 @@ php artisan vendor:publish --provider="Rapidez\ImageResizer\ImageResizerServiceP
 ## How it's working
 
 Images are downloaded from the media url (see `config/rapidez.php`) and stored in `/storage/app/public/resizes`. Because of the symlink created with `php artisan storage:link` the files are publicly availabe and because the route is the same as the path; the webserver first tries to serve the file if it exists, otherwise it will go through PHP to resize and create it.
+
+## License
+
+GNU General Public License v3. Please see [License File](LICENSE) for more information.

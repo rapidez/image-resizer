@@ -17,10 +17,10 @@ class ImageResizerServiceProvider extends ServiceProvider
     {
         Route::get('storage/resizes/{size}/{file}', ImageController::class)->where('file', '.*');
 
-        $this->mergeConfigFrom(__DIR__.'/config/imageresizer.php', 'imageresizer');
+        $this->mergeConfigFrom(__DIR__.'/../config/imageresizer.php', 'imageresizer');
 
         $this->publishes([
-            __DIR__.'/config/imageresizer.php' => config_path('imageresizer.php'),
+            __DIR__.'/../config/imageresizer.php' => config_path('imageresizer.php'),
         ], 'config');
     }
 }
