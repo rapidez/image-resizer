@@ -18,11 +18,11 @@ class ImageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request, string $size, string $file)
+    public function __invoke(Request $request, string $size, string $file, string $webp = '')
     {
         abort_unless(in_array($size, config('imageresizer.sizes')), 400, 'The requested size is not whitelisted.');
 
-        $resizedPath = 'resizes/'.$size.'/'.$file;
+        $resizedPath = 'resizes/'.$size.'/'.$file.$webp;
 
         if (!Storage::exists('public/'.$resizedPath)) {
             $remoteFile = config('rapidez.media_url').'/'.$file;
