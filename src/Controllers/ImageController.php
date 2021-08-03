@@ -2,11 +2,10 @@
 
 namespace Rapidez\ImageResizer\Controllers;
 
-use Rapidez\ImageResizer\Exceptions\UnreachableUrl;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+use Rapidez\ImageResizer\Exceptions\UnreachableUrl;
 use Spatie\Image\Image;
 use Spatie\Image\Manipulations;
 
@@ -15,7 +14,8 @@ class ImageController extends Controller
     /**
      * Handle the incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function __invoke(Request $request, string $size, string $file, string $webp = '')

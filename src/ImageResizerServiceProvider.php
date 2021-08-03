@@ -2,9 +2,9 @@
 
 namespace Rapidez\ImageResizer;
 
-use Rapidez\ImageResizer\Controllers\ImageController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Rapidez\ImageResizer\Controllers\ImageController;
 
 class ImageResizerServiceProvider extends ServiceProvider
 {
