@@ -37,7 +37,7 @@ class ImageController extends Controller
             @list($width, $height) = explode('x', $size);
 
             if ($height) {
-                $image->fit(MANIPULATIONS::FIT_CONTAIN, $width, $height);
+                $image->fit($request->has('crop') ? MANIPULATIONS::FIT_CROP : MANIPULATIONS::FIT_CONTAIN, $width, $height);
             } else {
                 $image->width($width);
             }
