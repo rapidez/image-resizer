@@ -58,10 +58,10 @@ class ImageController extends Controller
             $tempWatermark = $this->saveTempFile(config('rapidez.media_url') . '/catalog/product/watermark/' . $watermark);
 
             $image->watermark($tempWatermark)
-            ->watermarkOpacity($opacity)
-            ->watermarkPosition(config('imageresizer.watermarks.positions.'.$position))
-            ->watermarkHeight($height / 2, Manipulations::UNIT_PIXELS)
-            ->watermarkWidth($width / 2, Manipulations::UNIT_PIXELS);
+                ->watermarkOpacity($opacity)
+                ->watermarkPosition(config('imageresizer.watermarks.positions.'.$position))
+                ->watermarkHeight($height / 2, Manipulations::UNIT_PIXELS)
+                ->watermarkWidth($width / 2, Manipulations::UNIT_PIXELS);
         }
 
         return $image;
