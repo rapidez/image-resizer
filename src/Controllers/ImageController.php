@@ -2,6 +2,7 @@
 
 namespace Rapidez\ImageResizer\Controllers;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
@@ -22,18 +23,17 @@ class ImageController extends Controller
     {
         abort_unless(in_array($size, config('imageresizer.sizes')), 400, 'The requested size is not whitelisted.');
 
-        foreach (config('imageresizer.external') as $external => $url) {
-            if (str_contains($file, $external)) {
-                $file = str_replace($external, '', $file);
-                $url = str_replace($external, $url, $file);
-                $isExternal = $external;
+        foreach (config('imageresizer.external') as $placeholder => $url) {
+            if (Str::startsWith($file, $placeholder)) {
+                $file = str_replace($placeholder, '', $file);
+                $placeholder = $placeholder;
                 break;
             }
         }
 
         $resizedPath = 'resizes/'.$size.'/'.$file.$webp;
         if (!Storage::exists('public/'.$resizedPath)) {
-            $remoteFile = isset($isExternal) ? config('imageresizer.external.'.$isExternal).$file : config('rapidez.media_url').'/'.$file;
+            $remoteFile = isset($placeholder) ? config('imageresizer.external.'.$placeholder).$file : config('rapidez.media_url').'/'.$file;
             if (!$stream = @fopen($remoteFile, 'r')) {
                 throw UnreachableUrl::create($remoteFile);
             }
