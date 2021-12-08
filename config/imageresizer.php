@@ -6,4 +6,8 @@ return [
         '400',     // Product
         '200',     // Category
     ],
+    
+    'external' => [
+        // 'source-placeholder' => 'https://external-source.com',
+    ],
 ];
