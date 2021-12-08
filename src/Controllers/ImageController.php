@@ -2,10 +2,10 @@
 
 namespace Rapidez\ImageResizer\Controllers;
 
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Rapidez\ImageResizer\Exceptions\UnreachableUrl;
 use Spatie\Image\Image;
 use Spatie\Image\Manipulations;
@@ -36,7 +36,7 @@ class ImageController extends Controller
             $remoteFile = isset($placeholderUrl)
                 ? $placeholderUrl.$file
                 : config('rapidez.media_url').'/'.$file;
-            
+
             if (!$stream = @fopen($remoteFile, 'r')) {
                 throw UnreachableUrl::create($remoteFile);
             }
