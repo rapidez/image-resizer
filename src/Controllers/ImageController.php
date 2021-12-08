@@ -26,14 +26,17 @@ class ImageController extends Controller
         foreach (config('imageresizer.external') as $placeholder => $url) {
             if (Str::startsWith($file, $placeholder)) {
                 $file = str_replace($placeholder, '', $file);
-                $placeholder = $placeholder;
+                $placeholderUrl = $url;
                 break;
             }
         }
 
         $resizedPath = 'resizes/'.$size.'/'.$file.$webp;
         if (!Storage::exists('public/'.$resizedPath)) {
-            $remoteFile = isset($placeholder) ? config('imageresizer.external.'.$placeholder).$file : config('rapidez.media_url').'/'.$file;
+            $remoteFile = isset($placeholderUrl)
+                ? $placeholderUrl.$file
+                : config('rapidez.media_url').'/'.$file;
+            
             if (!$stream = @fopen($remoteFile, 'r')) {
                 throw UnreachableUrl::create($remoteFile);
             }
