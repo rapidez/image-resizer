@@ -22,10 +22,18 @@ class ImageController extends Controller
     {
         abort_unless(in_array($size, config('imageresizer.sizes')), 400, 'The requested size is not whitelisted.');
 
-        $resizedPath = 'resizes/'.$size.'/'.$file.$webp;
+        foreach (config('imageresizer.external') as $external => $url) {
+            if (str_contains($file, $external)) {
+                $file = str_replace($external, '', $file);
+                $url = str_replace($external, $url, $file);
+                $isExternal = $external;
+                break;
+            }
+        }
 
+        $resizedPath = 'resizes/'.$size.'/'.$file.$webp;
         if (!Storage::exists('public/'.$resizedPath)) {
-            $remoteFile = config('rapidez.media_url').'/'.$file;
+            $remoteFile = isset($isExternal) ? config('imageresizer.external.'.$isExternal) . $file : config('rapidez.media_url').'/'.$file;
             if (!$stream = @fopen($remoteFile, 'r')) {
                 throw UnreachableUrl::create($remoteFile);
             }
