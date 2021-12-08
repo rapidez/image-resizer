@@ -33,7 +33,7 @@ class ImageController extends Controller
 
         $resizedPath = 'resizes/'.$size.'/'.$file.$webp;
         if (!Storage::exists('public/'.$resizedPath)) {
-            $remoteFile = isset($isExternal) ? config('imageresizer.external.'.$isExternal) . $file : config('rapidez.media_url').'/'.$file;
+            $remoteFile = isset($isExternal) ? config('imageresizer.external.'.$isExternal).$file : config('rapidez.media_url').'/'.$file;
             if (!$stream = @fopen($remoteFile, 'r')) {
                 throw UnreachableUrl::create($remoteFile);
             }
