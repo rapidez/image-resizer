@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Rapidez\ImageResizer\Exceptions\UnreachableUrl;
 use Spatie\Image\Image;
+use Rapidez\Core\Models\Config;
 use Spatie\Image\Manipulations;
 
 class ImageController extends Controller
@@ -33,25 +34,17 @@ class ImageController extends Controller
 
         $resizedPath = 'resizes/'.$size.'/'.$file.$webp;
         if (!Storage::exists('public/'.$resizedPath)) {
-            $remoteFile = isset($placeholderUrl)
-                ? $placeholderUrl.$file
-                : config('rapidez.media_url').'/'.$file;
-
-            if (!$stream = @fopen($remoteFile, 'r')) {
-                throw UnreachableUrl::create($remoteFile);
-            }
-
-            $temporaryFile = tempnam(sys_get_temp_dir(), 'rapidez');
-            file_put_contents($temporaryFile, $stream);
+            $temporaryFile = $this->saveTempFile(config('rapidez.media_url').'/'.$file);
 
             $image = Image::load($temporaryFile)->optimize();
             @list($width, $height) = explode('x', $size);
-
             if ($height) {
                 $image->fit($request->has('crop') ? MANIPULATIONS::FIT_CROP : MANIPULATIONS::FIT_CONTAIN, $width, $height);
             } else {
                 $image->width($width);
             }
+
+            $image = $this->addWatermark($image, $width, $height ?? '400', $size);
 
             if (!is_dir(storage_path('app/public/'.pathinfo($resizedPath, PATHINFO_DIRNAME)))) {
                 mkdir(storage_path('app/public/'.pathinfo($resizedPath, PATHINFO_DIRNAME)), 0755, true);
@@ -61,5 +54,36 @@ class ImageController extends Controller
         }
 
         return response()->file(storage_path('app/public/'.$resizedPath));
+    }
+
+    public function addWaterMark(Image $image, string $width = '400', string $height = '400', string $size = '400') : Image
+    {
+        $watermarkSize = Config::getCachedByPath('design/watermark/thumbnail_size');
+        if ($watermarkSize == $size || explode('x', $watermarkSize)[0] == $size || !$watermarkSize) {
+            $watermark = Config::getCachedByPath('design/watermark/image_image');
+            $opacity = Config::getCachedByPath('design/watermark/thumbnail_imageOpacity', 40);
+            $position = Config::getCachedByPath('design/watermark/small_image_position', 'center');
+            $tempWatermark = $this->saveTempFile(config('rapidez.media_url') . '/catalog/product/watermark/' . $watermark);
+
+            $image->watermark($tempWatermark)
+                ->watermarkOpacity($opacity)
+                ->watermarkPosition(config('imageresizer.watermarks.positions.'.$position))
+                ->watermarkHeight($height / 2, Manipulations::UNIT_PIXELS)
+                ->watermarkWidth($width / 2, Manipulations::UNIT_PIXELS);
+        }
+
+        return $image;
+    }
+
+    public function saveTempFile($path)
+    {
+        if (!$stream = @fopen($path, 'r')) {
+            throw UnreachableUrl::create($path);
+        }
+
+        $temp = tempnam(sys_get_temp_dir(), 'rapidez');
+        file_put_contents($temp, $stream);
+
+        return $temp;
     }
 }
