@@ -6,6 +6,7 @@ return [
         '400',     // Product
         '200',     // Category
     ],
+
     'watermarks' => [
         'positions' => [
             'stretch' => Spatie\Image\Manipulations::FIT_STRETCH,
@@ -16,5 +17,9 @@ return [
             'bottom-right' => Spatie\Image\Manipulations::POSITION_BOTTOM_RIGHT,
             'center' => Spatie\Image\Manipulations::POSITION_CENTER
         ]
-    ]
+    ],
+
+    'external' => [
+        // 'source-placeholder' => 'https://external-source.com',
+    ],
 ];

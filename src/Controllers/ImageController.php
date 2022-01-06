@@ -5,6 +5,7 @@ namespace Rapidez\ImageResizer\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Rapidez\ImageResizer\Exceptions\UnreachableUrl;
 use Spatie\Image\Image;
 use Rapidez\Core\Models\Config;
@@ -23,8 +24,15 @@ class ImageController extends Controller
     {
         abort_unless(in_array($size, config('imageresizer.sizes')), 400, 'The requested size is not whitelisted.');
 
-        $resizedPath = 'resizes/'.$size.'/'.$file.$webp;
+        foreach (config('imageresizer.external') as $placeholder => $url) {
+            if (Str::startsWith($file, $placeholder)) {
+                $file = str_replace($placeholder, '', $file);
+                $placeholderUrl = $url;
+                break;
+            }
+        }
 
+        $resizedPath = 'resizes/'.$size.'/'.$file.$webp;
         if (!Storage::exists('public/'.$resizedPath)) {
             $temporaryFile = $this->saveTempFile(config('rapidez.media_url').'/'.$file);
 
