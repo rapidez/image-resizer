@@ -59,7 +59,7 @@ class ImageController extends Controller
     public function addWaterMark(Image $image, string $width = '400', string $height = '400', string $size = '400'): Image
     {
         $watermarkSize = Config::getCachedByPath('design/watermark/thumbnail_size');
-        if ($watermarkSize == $size || explode('x', $watermarkSize)[0] == $size || !$watermarkSize) {
+        if ($watermarkSize == $size || explode('x', $watermarkSize)[0] == $size) {
             $watermark = Config::getCachedByPath('design/watermark/image_image');
             $opacity = Config::getCachedByPath('design/watermark/thumbnail_imageOpacity', 40);
             $position = Config::getCachedByPath('design/watermark/small_image_position', 'center');
