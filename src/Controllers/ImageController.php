@@ -34,8 +34,10 @@ class ImageController extends Controller
 
         $resizedPath = 'resizes/'.$size.'/'.$file.$webp;
         if (!Storage::exists('public/'.$resizedPath)) {
-            $temporaryFile = $this->saveTempFile(config('rapidez.media_url').'/'.$file);
-
+            $remoteFile = isset($placeholderUrl)
+                ? $placeholderUrl.$file
+                : config('rapidez.media_url').'/'.$file;
+            $temporaryFile = $this->saveTempFile($remoteFile);
             $image = Image::load($temporaryFile)->optimize();
             @list($width, $height) = explode('x', $size);
             if ($height) {
@@ -44,7 +46,7 @@ class ImageController extends Controller
                 $image->width($width);
             }
 
-            $image = $this->addWatermark($image, $width, $height ?? '400', $size);
+            $image = isset($placeholderUrl) ? $image : $this->addWatermark($image, $width, $height ?? '400', $size);
 
             if (!is_dir(storage_path('app/public/'.pathinfo($resizedPath, PATHINFO_DIRNAME)))) {
                 mkdir(storage_path('app/public/'.pathinfo($resizedPath, PATHINFO_DIRNAME)), 0755, true);
