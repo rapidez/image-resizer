@@ -13,6 +13,14 @@ use Spatie\Image\Manipulations;
 
 class ImageController extends Controller
 {
+    protected $key;
+    protected $loopCount = 0;
+    protected $configKey = [
+            'thumbnail',
+            'small_image',
+            'image'
+        ];
+
     /**
      * Handle the incoming request.
      *
@@ -40,6 +48,7 @@ class ImageController extends Controller
             $temporaryFile = $this->saveTempFile($remoteFile);
             $image = Image::load($temporaryFile)->optimize();
             @list($width, $height) = explode('x', $size);
+
             if ($height) {
                 $image->fit($request->has('crop') ? MANIPULATIONS::FIT_CROP : MANIPULATIONS::FIT_CONTAIN, $width, $height);
             } else {
@@ -60,21 +69,36 @@ class ImageController extends Controller
 
     public function addWaterMark(Image $image, string $width = '400', string $height = '400', string $size = '400'): Image
     {
-        $watermarkSize = Config::getCachedByPath('design/watermark/thumbnail_size');
-        if ($watermarkSize == $size || explode('x', $watermarkSize)[0] == $size) {
-            $watermark = Config::getCachedByPath('design/watermark/image_image');
-            $opacity = Config::getCachedByPath('design/watermark/thumbnail_imageOpacity', 40);
-            $position = Config::getCachedByPath('design/watermark/small_image_position', 'center');
-            $tempWatermark = $this->saveTempFile(config('rapidez.media_url').'/catalog/product/watermark/'.$watermark);
-
-            $image->watermark($tempWatermark)
-                ->watermarkOpacity($opacity)
-                ->watermarkPosition(config('imageresizer.watermarks.positions.'.$position))
-                ->watermarkHeight($height / 2, Manipulations::UNIT_PIXELS)
-                ->watermarkWidth($width / 2, Manipulations::UNIT_PIXELS);
+        $this->key = $width <= 200 ? 0 : ($width > 200 && $width < 600 ? 1 : 2);
+        $watermark = $this->getWaterMark($this->configKey[$this->key]);
+        if (!$watermark) {
+            return $image;
         }
 
+        $position = Config::getCachedByPath('design/watermark/'.$watermark.'_position', 'center');
+        $size = Config::getCachedByPath('design/watermark/'.$watermark.'_size', '100x100');
+        $tempWatermark = $this->saveTempFile(config('rapidez.media_url').'/catalog/product/watermark/'.Config::getCachedByPath('design/watermark/'.$watermark.'_image'));
+
+        $image->watermark($tempWatermark)
+            ->watermarkOpacity(Config::getCachedByPath('design/watermark/'.$watermark.'_imageOpacity', 100))
+            ->watermarkPosition(config('imageresizer.watermarks.positions.'.Config::getCachedByPath('design/watermark/'.$watermark.'_position', 'center')))
+            ->watermarkHeight($height, Manipulations::UNIT_PIXELS)
+            ->watermarkWidth($width, Manipulations::UNIT_PIXELS)
+            ->watermarkHeight(explode('x', $size)[1])
+            ->watermarkWidth(explode('x', $size)[0], Manipulations::UNIT_PIXELS);
+
         return $image;
+    }
+
+    public function getWaterMark($key)
+    {
+        $this->loopCount++;
+        $watermark = Config::getCachedByPath('design/watermark/'.$key.'_image');
+        if (empty($watermark) && $this->loopCount < 3) {
+            return $this->getWaterMark($key < 2 ? $key++ : 0);
+        }
+
+        return  $this->loopCount < 3 ? $key : null;
     }
 
     public function saveTempFile($path)
