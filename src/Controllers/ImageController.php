@@ -18,7 +18,7 @@ class ImageController extends Controller
     protected $configKey = [
         'thumbnail',
         'small_image',
-        'image'
+        'image',
     ];
 
     /**
