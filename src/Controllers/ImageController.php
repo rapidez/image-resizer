@@ -16,10 +16,10 @@ class ImageController extends Controller
     protected $key;
     protected $loopCount = 0;
     protected $configKey = [
-            'thumbnail',
-            'small_image',
-            'image'
-        ];
+        'thumbnail',
+        'small_image',
+        'image'
+    ];
 
     /**
      * Handle the incoming request.
@@ -71,6 +71,7 @@ class ImageController extends Controller
     {
         $this->key = $width <= 200 ? 0 : ($width > 200 && $width < 600 ? 1 : 2);
         $watermark = $this->getWaterMark($this->configKey[$this->key]);
+
         if (!$watermark) {
             return $image;
         }
