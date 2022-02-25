@@ -13,14 +13,6 @@ use Spatie\Image\Manipulations;
 
 class ImageController extends Controller
 {
-    protected $key;
-    protected $loopCount = 0;
-    protected $configKey = [
-        'thumbnail',
-        'small_image',
-        'image',
-    ];
-
     /**
      * Handle the incoming request.
      *
@@ -69,10 +61,9 @@ class ImageController extends Controller
 
     public function addWaterMark(Image $image, string $width = '400', string $height = '400', string $size = '400'): Image
     {
-        $this->key = $width <= 200 ? 0 : ($width > 200 && $width < 600 ? 1 : 2);
-        $watermark = $this->getWaterMark($this->configKey[$this->key]);
-
-        if (!$watermark) {
+        $watermark = $width < 200 ? 'thumbnail' : ($width >= 200 && $width < 600 ? 'small_image' : 'image');
+        $waterMarkImage = Config::getCachedByPath('design/watermark/'.$watermark.'_image');
+        if (!$waterMarkImage) {
             return $image;
         }
 
@@ -89,17 +80,6 @@ class ImageController extends Controller
             ->watermarkWidth(explode('x', $size)[0], Manipulations::UNIT_PIXELS);
 
         return $image;
-    }
-
-    public function getWaterMark($key)
-    {
-        $this->loopCount++;
-        $watermark = Config::getCachedByPath('design/watermark/'.$key.'_image');
-        if (empty($watermark) && $this->loopCount < 3) {
-            return $this->getWaterMark($key < 2 ? $key++ : 0);
-        }
-
-        return  $this->loopCount < 3 ? $key : null;
     }
 
     public function saveTempFile($path)
