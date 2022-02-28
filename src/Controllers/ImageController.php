@@ -41,6 +41,13 @@ class ImageController extends Controller
             $image = Image::load($temporaryFile)->optimize();
             @list($width, $height) = explode('x', $size);
 
+            // Don't upscale images.
+            foreach (['width', 'height'] as $dimension) {
+                if (${$dimension} > $image->{'get'.ucfirst($dimension)}()) {
+                    ${$dimension} = $image->{'get'.ucfirst($dimension)}();
+                }
+            }
+
             if ($height) {
                 $image->fit($request->has('crop') ? MANIPULATIONS::FIT_CROP : MANIPULATIONS::FIT_CONTAIN, $width, $height);
             } else {
