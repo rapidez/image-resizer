@@ -17,12 +17,12 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^7.4|^8.0",
-        "illuminate/http": "^8.0",
-        "illuminate/routing": "^8.0",
-        "illuminate/support": "^8.0",
-        "rapidez/core": "~0.1",
-        "spatie/image": "^1.7"
+        "php": "^8.0|^8.1",
+        "illuminate/http": "^9.0",
+        "illuminate/routing": "^9.0",
+        "illuminate/support": "^9.0",
+        "rapidez/core": "~0.54",
+        "spatie/image": "^2.2"
     },
     "autoload": {
         "psr-4": {
