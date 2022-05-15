@@ -33,7 +33,7 @@ class ImageController extends Controller
         }
 
         $resizedPath = 'resizes/'.$size.'/'.$file.$webp;
-        if (!Storage::exists('public/'.$resizedPath)) {
+        if (!Storage::exists('public/'.config('rapidez.store').'/'.$resizedPath)) {
             $remoteFile = isset($placeholderUrl)
                 ? $placeholderUrl.$file
                 : config('rapidez.media_url').'/'.$file;
@@ -56,11 +56,11 @@ class ImageController extends Controller
 
             $image = isset($placeholderUrl) ? $image : $this->addWatermark($image, $width, $height ?? '400', $size);
 
-            if (!is_dir(storage_path('app/public/'.pathinfo($resizedPath, PATHINFO_DIRNAME)))) {
-                mkdir(storage_path('app/public/'.pathinfo($resizedPath, PATHINFO_DIRNAME)), 0755, true);
+            if (!is_dir(storage_path('app/public/'.config('rapidez.store').'/'.pathinfo($resizedPath, PATHINFO_DIRNAME)))) {
+                mkdir(storage_path('app/public/'.config('rapidez.store').'/'.pathinfo($resizedPath, PATHINFO_DIRNAME)), 0755, true);
             }
 
-            $image->save(storage_path('app/public/'.$resizedPath));
+            $image->save(storage_path('app/public/'.config('rapidez.store').'/'.$resizedPath));
         }
 
         return response()->file(storage_path('app/public/'.$resizedPath));
