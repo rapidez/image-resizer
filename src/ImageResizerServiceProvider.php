@@ -4,8 +4,8 @@ namespace Rapidez\ImageResizer;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Rapidez\ImageResizer\Controllers\ImageController;
 use Rapidez\ImageResizer\Commands\RemoveResizesCommand;
+use Rapidez\ImageResizer\Controllers\ImageController;
 
 class ImageResizerServiceProvider extends ServiceProvider
 {
@@ -25,7 +25,7 @@ class ImageResizerServiceProvider extends ServiceProvider
             __DIR__.'/../config/imageresizer.php' => config_path('imageresizer.php'),
         ], 'config');
 
-         $this->commands([
+        $this->commands([
             RemoveResizesCommand::class,
         ]);
     }
