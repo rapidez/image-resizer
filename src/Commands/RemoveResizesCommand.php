@@ -2,8 +2,8 @@
 
 namespace Rapidez\ImageResizer\Commands;
 
-use Illuminate\Support\Facades\File;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 
 class RemoveResizesCommand extends Command
 {
