@@ -43,6 +43,13 @@ Now you can use the following path to resize the images from the external source
 
 Images are downloaded from the media url (see `config/rapidez.php`) and stored in `/storage/app/public/resizes`. Because of the symlink created with `php artisan storage:link` the files are publicly availabe and because the route is the same as the path; the webserver first tries to serve the file if it exists, otherwise it will go through PHP to resize and create it.
 
+## Deleting resizes
+
+The image resizes can be deleted using this artisan command:
+```
+php artisan rapidez:resizes:delete {store?}
+```
+
 ## License
 
 GNU General Public License v3. Please see [License File](LICENSE) for more information.
