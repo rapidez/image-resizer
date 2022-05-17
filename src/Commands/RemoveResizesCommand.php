@@ -4,6 +4,7 @@ namespace Rapidez\ImageResizer\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Collection;
 
 class RemoveResizesCommand extends Command
 {
@@ -21,7 +22,7 @@ class RemoveResizesCommand extends Command
         $storeModel = config('rapidez.models.store');
         $stores = $this->argument('store') ? $this->argument('store') : $storeModel::all()->pluck('id');
 
-        if (is_a($stores, 'Illuminate\Support\Collection')) {
+        if ($stores instanceof Collection) {
             foreach ($stores as $id => $store) {
                 File::deleteDirectory(storage_path('app/public/'.$id.'/'));
             }
