@@ -63,7 +63,7 @@ class ImageController extends Controller
             $image->save(storage_path('app/public/'.config('rapidez.store').'/'.$resizedPath));
         }
 
-        return response()->file(storage_path('app/public/'.$resizedPath));
+        return response()->file(storage_path('app/public/'.config('rapidez.store').'/'.$resizedPath));
     }
 
     public function addWaterMark(Image $image, string $width = '400', string $height = '400', string $size = '400'): Image
