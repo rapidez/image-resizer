@@ -1,6 +1,12 @@
 # Changelog
 
-## [Unreleased](https://github.com/org/repo/compare/0.6.1...master)
+## [Unreleased](https://github.com/org/repo/compare/0.6.2...master)
+
+## [0.6.2](https://github.com/org/repo/compare/0.6.1...0.6.2) - 2022-07-20
+
+### Fixed
+
+- Abort instead of custom UnreachableUrl exception (c359f77)
 
 ## [0.6.1](https://github.com/org/repo/compare/0.6.0...0.6.1) - 2022-06-10
 
