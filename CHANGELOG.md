@@ -1,6 +1,18 @@
 # Changelog
 
-## [Unreleased](https://github.com/org/repo/compare/0.5.0...master)
+## [Unreleased](https://github.com/org/repo/compare/0.6.1...master)
+
+## [0.6.1](https://github.com/org/repo/compare/0.6.0...0.6.1) - 2022-06-10
+
+### Fixed
+
+- Fix wrong storage path (#14)
+
+## [0.6.0](https://github.com/org/repo/compare/0.5.0...0.6.0) - 2022-05-18
+
+### Added
+
+- Resizes stored per store dir and delete command (#13)
 
 ## [0.5.0](https://github.com/org/repo/compare/0.4.5...0.5.0) - 2022-04-11
 
