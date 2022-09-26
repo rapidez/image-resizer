@@ -1,6 +1,12 @@
 # Changelog
 
-## [Unreleased](https://github.com/org/repo/compare/0.6.2...master)
+## [Unreleased](https://github.com/org/repo/compare/0.6.3...master)
+
+## [0.6.3](https://github.com/org/repo/compare/0.6.2...0.6.3) - 2022-09-26
+
+### Fixed
+
+- Fix the image sizes of watermarks (https://github.com/rapidez/image-resizer/pull/15)
 
 ## [0.6.2](https://github.com/org/repo/compare/0.6.1...0.6.2) - 2022-07-20
 
