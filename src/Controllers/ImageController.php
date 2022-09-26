@@ -7,6 +7,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Rapidez\Core\Models\Config;
+use Rapidez\ImageResizer\Exceptions\UnreachableUrl;
 use Spatie\Image\Image;
 use Spatie\Image\Manipulations;
 
@@ -68,6 +69,7 @@ class ImageController extends Controller
     public function addWaterMark(Image $image, string $width = '400', string $height = '400', string $size = '400'): Image
     {
         $watermark = $width < 200 ? 'thumbnail' : ($width >= 200 && $width < 600 ? 'small_image' : 'image');
+
         $waterMarkImage = Config::getCachedByPath('design/watermark/'.$watermark.'_image');
         if (!$waterMarkImage) {
             return $image;
@@ -75,15 +77,15 @@ class ImageController extends Controller
 
         $position = Config::getCachedByPath('design/watermark/'.$watermark.'_position', 'center');
         $size = Config::getCachedByPath('design/watermark/'.$watermark.'_size', '100x100');
+
+        @list($height, $width) = explode('x', $size);
         $tempWatermark = $this->saveTempFile(config('rapidez.media_url').'/catalog/product/watermark/'.Config::getCachedByPath('design/watermark/'.$watermark.'_image'));
 
         $image->watermark($tempWatermark)
             ->watermarkOpacity(Config::getCachedByPath('design/watermark/'.$watermark.'_imageOpacity', 100))
             ->watermarkPosition(config('imageresizer.watermarks.positions.'.Config::getCachedByPath('design/watermark/'.$watermark.'_position', 'center')))
             ->watermarkHeight($height, Manipulations::UNIT_PIXELS)
-            ->watermarkWidth($width, Manipulations::UNIT_PIXELS)
-            ->watermarkHeight(explode('x', $size)[1])
-            ->watermarkWidth(explode('x', $size)[0], Manipulations::UNIT_PIXELS);
+            ->watermarkWidth($width, Manipulations::UNIT_PIXELS);
 
         return $image;
     }
@@ -91,7 +93,7 @@ class ImageController extends Controller
     public function saveTempFile($path)
     {
         if (!$stream = @fopen($path, 'r')) {
-            abort(404, "Url `{$url}` cannot be reached");
+            throw UnreachableUrl::create($path);
         }
 
         $temp = tempnam(sys_get_temp_dir(), 'rapidez');
