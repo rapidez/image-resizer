@@ -7,7 +7,6 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Rapidez\Core\Models\Config;
-use Rapidez\ImageResizer\Exceptions\UnreachableUrl;
 use Spatie\Image\Image;
 use Spatie\Image\Manipulations;
 
