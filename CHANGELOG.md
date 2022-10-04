@@ -1,6 +1,12 @@
 # Changelog
 
-## [Unreleased](https://github.com/org/repo/compare/0.6.3...master)
+## [Unreleased](https://github.com/org/repo/compare/0.6.4...master)
+
+## [0.6.4](https://github.com/org/repo/compare/0.6.3...0.6.4) - 2022-10-04
+
+### Fixed
+
+- Revert remove of abort (#16)
 
 ## [0.6.3](https://github.com/org/repo/compare/0.6.2...0.6.3) - 2022-09-26
 
