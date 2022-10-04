@@ -93,7 +93,7 @@ class ImageController extends Controller
     public function saveTempFile($path)
     {
         if (!$stream = @fopen($path, 'r')) {
-            throw UnreachableUrl::create($path);
+            abort(404, "Url `{$url}` cannot be reached");
         }
 
         $temp = tempnam(sys_get_temp_dir(), 'rapidez');
