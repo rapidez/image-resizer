@@ -12,6 +12,8 @@ use Spatie\Image\Manipulations;
 
 class ImageController extends Controller
 {
+    protected array $tmpPaths = [];
+
     /**
      * Handle the incoming request.
      *
@@ -86,20 +88,26 @@ class ImageController extends Controller
             ->watermarkHeight($height, Manipulations::UNIT_PIXELS)
             ->watermarkWidth($width, Manipulations::UNIT_PIXELS);
 
-        unlink($tempWatermark);
-
         return $image;
     }
 
     public function saveTempFile($path)
     {
         if (!$stream = @fopen($path, 'r')) {
-            abort(404, "Url `{$url}` cannot be reached");
+            abort(404, "Url `{$path}` cannot be reached");
         }
 
         $temp = tempnam(sys_get_temp_dir(), 'rapidez');
+        $this->tmpPaths[] = $temp;
         file_put_contents($temp, $stream);
 
         return $temp;
+    }
+
+    public function __destruct()
+    {
+        foreach ($this->tmpPaths as $path) {
+            unlink($path);
+        }
     }
 }
