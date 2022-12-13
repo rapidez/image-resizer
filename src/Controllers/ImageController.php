@@ -86,6 +86,8 @@ class ImageController extends Controller
             ->watermarkHeight($height, Manipulations::UNIT_PIXELS)
             ->watermarkWidth($width, Manipulations::UNIT_PIXELS);
 
+        unlink($tempWatermark);
+
         return $image;
     }
 
