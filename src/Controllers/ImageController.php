@@ -85,6 +85,8 @@ class ImageController extends Controller
             ->watermarkPosition(config('imageresizer.watermarks.positions.'.Config::getCachedByPath('design/watermark/'.$watermark.'_position', 'center')))
             ->watermarkHeight($height, Manipulations::UNIT_PIXELS)
             ->watermarkWidth($width, Manipulations::UNIT_PIXELS);
+        
+        unlink($tempWatermark);
 
         return $image;
     }
