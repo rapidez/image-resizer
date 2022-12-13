@@ -1,6 +1,12 @@
 # Changelog
 
-## [Unreleased](https://github.com/org/repo/compare/0.6.4...master)
+## [Unreleased](https://github.com/org/repo/compare/0.6.5...master)
+
+## [0.6.5](https://github.com/org/repo/compare/0.6.4...0.6.5) - 2022-12-13
+
+### Fixed
+
+- Clean up watermark after it has been used (#17)
 
 ## [0.6.4](https://github.com/org/repo/compare/0.6.3...0.6.4) - 2022-10-04
 
