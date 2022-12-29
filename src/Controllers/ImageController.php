@@ -21,19 +21,24 @@ class ImageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request, string $size, string $file, string $webp = '')
+    public function __invoke(Request $request, string $size, string $file, string $webp = '', string $customPlaceholder = '', string $customPlaceholderUrl = '')
     {
         abort_unless(in_array($size, config('imageresizer.sizes')), 400, 'The requested size is not whitelisted.');
 
-        foreach (config('imageresizer.external') as $placeholder => $url) {
-            if (Str::startsWith($file, $placeholder)) {
-                $file = str_replace($placeholder, '', $file);
-                $placeholderUrl = $url;
-                break;
+        if ($customPlaceholder && $customPlaceholderUrl) {
+            $file = explode($customPlaceholder, $request->getRequestUri())[1];
+            $placeholderUrl = $customPlaceholderUrl;
+        } else {
+            foreach (config('imageresizer.external') as $placeholder => $url) {
+                if (Str::startsWith($file, $placeholder)) {
+                    $file = str_replace($placeholder, '', $file);
+                    $placeholderUrl = $url;
+                    break;
+                }
             }
         }
 
-        $resizedPath = 'resizes/'.$size.'/'.$file.$webp;
+        $resizedPath = 'resizes/'.$size.'/'.strtok($file, '?').$webp;
         if (!Storage::exists('public/'.config('rapidez.store').'/'.$resizedPath)) {
             $remoteFile = isset($placeholderUrl)
                 ? $placeholderUrl.$file
