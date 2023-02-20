@@ -1,11 +1,11 @@
 # Rapidez Image Resizer
 
-Instead of just loading the full and big images from Magento this extension resizes the images. This works by passing the Magento image path through the image route: `/storage/resizes/{size}/{file}`.
+Instead of just loading the full and big images from Magento this extension resizes the images. This works by passing the Magento image path through the image route: `/storage/resizes/{size}/magento/{file}`.
 
-Let's say a product image is located at: `https://magentowebsite.com/media/catalog/product/a/a/product-image.jpg` the path will be `/catalog/product/a/a/product-image.jpg`. To get this image with a maximum width of 200 pixels you go to: `/storage/resizes/200/catalog/product/a/a/product-image.jpg`. If you also want to specify a maximum height: `/storage/resizes/200x200/catalog/product/a/a/product-image.jpg`.
+Let's say a product image is located at: `https://magentowebsite.com/media/catalog/product/a/a/product-image.jpg` the path will be `/catalog/product/a/a/product-image.jpg`. To get this image with a maximum width of 200 pixels you go to: `/storage/resizes/200/magento/catalog/product/a/a/product-image.jpg`. If you also want to specify a maximum height: `/storage/resizes/200x200/magento/catalog/product/a/a/product-image.jpg`.
 
-Automatic webp conversion will also be done if the url has `.webp` as it's extension e.g. `/storage/resizes/200x200/catalog/product/a/a/product-image.jpg.webp`
-This will make it retrieve the image from `https://magentowebsite.com/media/catalog/product/a/a/product-image.jpg`, resize it, format it as webp and save it as `/storage/resizes/200x200/catalog/product/a/a/product-image.jpg.webp`.
+Automatic webp conversion will also be done if the url has `.webp` as it's extension e.g. `/storage/resizes/200x200/magento/catalog/product/a/a/product-image.jpg.webp`
+This will make it retrieve the image from `https://magentowebsite.com/media/catalog/product/a/a/product-image.jpg`, resize it, format it as webp and save it as `/storage/resizes/200x200/magento/catalog/product/a/a/product-image.jpg.webp`.
 
 ## Installation
 
@@ -25,7 +25,7 @@ php artisan vendor:publish --provider="Rapidez\ImageResizer\ImageResizerServiceP
 
 ### External sources
 
-If you are using images from an external location (for example from a CMS like [Strapi](https://github.com/rapidez/strapi)) you can add that source:
+If you are using images from other external location (see the [CMS integrations](https://docs.rapidez.io/0.x/packages.html#cms)) you can add that source:
 
 ```
 'external' => [
@@ -41,7 +41,7 @@ Now you can use the following path to resize the images from the external source
 
 ## How it's working
 
-Images are downloaded from the media url (see `config/rapidez.php`) and stored in `/storage/app/public/resizes`. Because of the symlink created with `php artisan storage:link` the files are publicly availabe and because the route is the same as the path; the webserver first tries to serve the file if it exists, otherwise it will go through PHP to resize and create it.
+Images are downloaded from the media url and stored in `/storage/app/public/<store>/resizes`. Because of the symlink created with `php artisan storage:link` the files are publicly availabe and because the route is the same as the path; the webserver first tries to serve the file if it exists, otherwise it will go through PHP to resize and create it.
 
 ## Deleting resizes
 
