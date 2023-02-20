@@ -4,7 +4,6 @@ namespace Rapidez\ImageResizer\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class RemoveResizesCommand extends Command
@@ -25,10 +24,10 @@ class RemoveResizesCommand extends Command
 
         if ($stores instanceof Collection) {
             foreach ($stores as $id => $store) {
-                $this->storage()->deleteDirectory($id . '/resizes');
+                $this->storage()->deleteDirectory($id.'/resizes');
             }
         } else {
-            $this->storage()->deleteDirectory($id . '/resizes');
+            $this->storage()->deleteDirectory($id.'/resizes');
         }
 
         $this->info('Done!');
