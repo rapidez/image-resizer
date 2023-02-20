@@ -30,12 +30,12 @@ class ImageController extends Controller
             ? $placeholder
             : 'local';
 
-        $resizedPath = config('rapidez.store') . '/resizes/' . $placeholder . '/' . $size . '/' . $file . $webp;
+        $resizedPath = config('rapidez.store').'/resizes/'.$placeholder.'/'.$size.'/'.$file.$webp;
 
-        if (! $this->storage()->exists($resizedPath)) {
+        if (!$this->storage()->exists($resizedPath)) {
             $content = isset($placeholderUrl)
-                ? $this->download($placeholderUrl . $file)
-                : $this->storage()->get(config('rapidez.store') . '/' . $file);
+                ? $this->download($placeholderUrl.$file)
+                : $this->storage()->get(config('rapidez.store').'/'.$file);
 
             abort_unless($content, 404);
 
@@ -81,7 +81,7 @@ class ImageController extends Controller
         $size = Config::getCachedByPath('design/watermark/'.$watermark.'_size', '100x100');
 
         @list($height, $width) = explode('x', $size);
-        $watermarkImage = $this->download(config('rapidez.media_url') . '/catalog/product/watermark/' . $watermarkImage);
+        $watermarkImage = $this->download(config('rapidez.media_url').'/catalog/product/watermark/'.$watermarkImage);
         $tempWatermark = $this->createTempFile($watermarkImage);
 
         $image->watermark($tempWatermark)
