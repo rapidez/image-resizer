@@ -1,10 +1,17 @@
 <?php
 
 return [
+    // Which disk should be used to save the resizes?
+    // And where are the non-external files stored?
+    // See config/filesystems.php
+    'disk' => env('RAPIDEZ_DISK', 'public'),
+
     'sizes' => [
         '80x80',   // Thumbs
         '400',     // Product
         '200',     // Category
+        '750',     // Homepage blocks
+        '1500',    // Homepage blocks
     ],
 
     'watermarks' => [
@@ -20,6 +27,7 @@ return [
     ],
 
     'external' => [
+        'magento' => env('MEDIA_URL', env('MAGENTO_URL').'/media'),
         // 'source-placeholder' => 'https://external-source.com',
     ],
 ];

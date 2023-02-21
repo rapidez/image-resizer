@@ -14,32 +14,33 @@ class ImageController extends Controller
 {
     protected array $tmpPaths = [];
 
-    /**
-     * Handle the incoming request.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function __invoke(Request $request, string $size, string $file, string $webp = '')
     {
         abort_unless(in_array($size, config('imageresizer.sizes')), 400, 'The requested size is not whitelisted.');
 
         foreach (config('imageresizer.external') as $placeholder => $url) {
             if (Str::startsWith($file, $placeholder)) {
-                $file = str_replace($placeholder, '', $file);
+                $file = Str::replaceFirst($placeholder, '', $file);
                 $placeholderUrl = $url;
                 break;
             }
         }
 
-        $resizedPath = 'resizes/'.$size.'/'.$file.$webp;
-        if (!Storage::exists('public/'.config('rapidez.store').'/'.$resizedPath)) {
-            $remoteFile = isset($placeholderUrl)
-                ? $placeholderUrl.$file
-                : config('rapidez.media_url').'/'.$file;
-            $temporaryFile = $this->saveTempFile($remoteFile);
-            $image = Image::load($temporaryFile)->optimize();
+        $placeholder = isset($placeholderUrl)
+            ? $placeholder
+            : 'local';
+
+        $resizedPath = config('rapidez.store').'/resizes/'.$placeholder.'/'.$size.'/'.$file.$webp;
+
+        if (!$this->storage()->exists($resizedPath)) {
+            $content = isset($placeholderUrl)
+                ? $this->download($placeholderUrl.$file)
+                : $this->storage()->get(config('rapidez.store').'/'.$file);
+
+            abort_unless($content, 404);
+
+            $tempFile = $this->createTempFile($content);
+            $image = Image::load($tempFile)->optimize();
             @list($width, $height) = explode('x', $size);
 
             // Don't upscale images.
@@ -55,16 +56,16 @@ class ImageController extends Controller
                 $image->width($width);
             }
 
-            $image = isset($placeholderUrl) ? $image : $this->addWatermark($image, $width, $height ?? '400', $size);
+            $image = $placeholder == 'magento'
+                ? $this->addWatermark($image, $width, $height ?? '400', $size)
+                : $image;
 
-            if (!is_dir(storage_path('app/public/'.config('rapidez.store').'/'.pathinfo($resizedPath, PATHINFO_DIRNAME)))) {
-                mkdir(storage_path('app/public/'.config('rapidez.store').'/'.pathinfo($resizedPath, PATHINFO_DIRNAME)), 0755, true);
-            }
+            $image->save();
 
-            $image->save(storage_path('app/public/'.config('rapidez.store').'/'.$resizedPath));
+            $this->storage()->put($resizedPath, file_get_contents($tempFile));
         }
 
-        return response()->file(storage_path('app/public/'.config('rapidez.store').'/'.$resizedPath));
+        return $this->storage()->response($resizedPath);
     }
 
     public function addWaterMark(Image $image, string $width = '400', string $height = '400', string $size = '400'): Image
@@ -80,7 +81,8 @@ class ImageController extends Controller
         $size = Config::getCachedByPath('design/watermark/'.$watermark.'_size', '100x100');
 
         @list($height, $width) = explode('x', $size);
-        $tempWatermark = $this->saveTempFile(config('rapidez.media_url').'/catalog/product/watermark/'.Config::getCachedByPath('design/watermark/'.$watermark.'_image'));
+        $watermarkImage = $this->download(config('rapidez.media_url').'/catalog/product/watermark/'.$watermarkImage);
+        $tempWatermark = $this->createTempFile($watermarkImage);
 
         $image->watermark($tempWatermark)
             ->watermarkOpacity(Config::getCachedByPath('design/watermark/'.$watermark.'_imageOpacity', 100))
@@ -91,15 +93,25 @@ class ImageController extends Controller
         return $image;
     }
 
-    public function saveTempFile($path)
+    public function storage()
     {
-        if (!$stream = @fopen($path, 'r')) {
-            abort(404, "Url `{$path}` cannot be reached");
+        return Storage::disk(config('imageresizer.disk'));
+    }
+
+    public function download($url)
+    {
+        if (!$content = @fopen($url, 'r')) {
+            abort(404, "Url `{$url}` cannot be reached");
         }
 
+        return $content;
+    }
+
+    public function createTempFile($content)
+    {
         $temp = tempnam(sys_get_temp_dir(), 'rapidez');
         $this->tmpPaths[] = $temp;
-        file_put_contents($temp, $stream);
+        file_put_contents($temp, $content);
 
         return $temp;
     }
@@ -107,7 +119,7 @@ class ImageController extends Controller
     public function __destruct()
     {
         foreach ($this->tmpPaths as $path) {
-            unlink($path);
+            @unlink($path);
         }
     }
 }
