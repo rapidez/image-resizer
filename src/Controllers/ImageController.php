@@ -14,7 +14,7 @@ class ImageController extends Controller
 {
     protected array $tmpPaths = [];
 
-    public function __invoke(Request $request, string $size, string $file, string $webp = '', string|bool $fileName = false)
+    public function __invoke(Request $request, string $size, string $file, string $webp = '', string|bool $customFilename = false)
     {
         abort_unless(in_array($size, config('imageresizer.sizes')), 400, 'The requested size is not whitelisted.');
 
