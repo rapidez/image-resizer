@@ -30,7 +30,7 @@ class ImageController extends Controller
             ? $placeholder
             : 'local';
 
-        $resizedPath = config('rapidez.store').'/resizes/'.$placeholder.'/'.$size.'/'.($fileName ?? $file).$webp;
+        $resizedPath = config('rapidez.store').'/resizes/'.$placeholder.'/'.$size.'/'.($customFilename ?? $file).$webp;
 
         if (!$this->storage()->exists($resizedPath)) {
             $content = isset($placeholderUrl)
