@@ -14,7 +14,7 @@ class ImageController extends Controller
 {
     protected array $tmpPaths = [];
 
-    public function __invoke(Request $request, string $size, string $file, string $webp = '')
+    public function __invoke(Request $request, string $size, string $file, string $webp = '', string|bool $fileName = false)
     {
         abort_unless(in_array($size, config('imageresizer.sizes')), 400, 'The requested size is not whitelisted.');
 
@@ -30,7 +30,7 @@ class ImageController extends Controller
             ? $placeholder
             : 'local';
 
-        $resizedPath = config('rapidez.store').'/resizes/'.$placeholder.'/'.$size.'/'.$file.$webp;
+        $resizedPath = config('rapidez.store').'/resizes/'.$placeholder.'/'.$size.'/'.($fileName ?? $file).$webp;
 
         if (!$this->storage()->exists($resizedPath)) {
             $content = isset($placeholderUrl)
