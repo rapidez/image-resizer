@@ -1,6 +1,12 @@
 # Changelog 
 
-[Unreleased changes](https://github.com/rapidez/image-resizer/compare/0.8.0...master)
+[Unreleased changes](https://github.com/rapidez/image-resizer/compare/0.8.1...master)
+## [0.8.1](https://github.com/rapidez/image-resizer/releases/tag/0.8.1) - 2023-03-14
+
+#### Fixed
+
+- Fix capitalisation on watermarkImage (e70a58fdaaacd61354fe27cef46afaee6b85947a)
+
 ## [0.8.0](https://github.com/rapidez/image-resizer/releases/tag/0.8.0) - 2023-03-06
 
 #### Added
