@@ -1,6 +1,14 @@
 # Changelog 
 
-[Unreleased changes](https://github.com/rapidez/image-resizer/compare/0.8.1...master)
+[Unreleased changes](https://github.com/rapidez/image-resizer/compare/0.8.2...master)
+## [0.8.2](https://github.com/rapidez/image-resizer/releases/tag/0.8.2) - 2023-03-14
+
+#### Fixed
+
+
+- Prevent falsey custom filename (https://github.com/rapidez/image-resizer/pull/22)
+
+
 ## [0.8.1](https://github.com/rapidez/image-resizer/releases/tag/0.8.1) - 2023-03-14
 
 #### Fixed
