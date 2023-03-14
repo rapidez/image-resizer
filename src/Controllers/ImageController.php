@@ -72,8 +72,8 @@ class ImageController extends Controller
     {
         $watermark = $width < 200 ? 'thumbnail' : ($width >= 200 && $width < 600 ? 'small_image' : 'image');
 
-        $waterMarkImage = Config::getCachedByPath('design/watermark/'.$watermark.'_image');
-        if (!$waterMarkImage) {
+        $watermarkImage = Config::getCachedByPath('design/watermark/'.$watermark.'_image');
+        if (!$watermarkImage) {
             return $image;
         }
 
