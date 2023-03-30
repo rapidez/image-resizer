@@ -60,6 +60,10 @@ class ImageController extends Controller
                 ? $this->addWatermark($image, $width, $height ?? '400', $size)
                 : $image;
 
+            if ($webp) {
+                $image->format(Manipulations::FORMAT_WEBP);
+            }
+
             $image->save();
 
             $this->storage()->put($resizedPath, file_get_contents($tempFile));
