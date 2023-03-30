@@ -1,6 +1,16 @@
 # Changelog 
 
-[Unreleased changes](https://github.com/rapidez/image-resizer/compare/0.8.2...master)
+[Unreleased changes](https://github.com/rapidez/image-resizer/compare/0.9.0...master)
+## [0.9.0](https://github.com/rapidez/image-resizer/releases/tag/0.9.0) - 2023-03-30
+
+#### Changed
+
+- Removed the custom filename option (4b5f737)
+
+#### Fixed
+
+- Explicitly set the WebP format (d9bd45e)
+
 ## [0.8.2](https://github.com/rapidez/image-resizer/releases/tag/0.8.2) - 2023-03-14
 
 #### Fixed
