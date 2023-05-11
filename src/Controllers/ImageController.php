@@ -18,6 +18,11 @@ class ImageController extends Controller
     {
         abort_unless(in_array($size, config('imageresizer.sizes')), 400, 'The requested size is not whitelisted.');
 
+        if(Str::startsWith($file, 'sku:')) {
+            abort_unless(config('imageresizer.allow_sku'), 400, 'Retrieving image by SKU is not enabled.');
+            $file = $this->productImageUrlFromSku(Str::replaceFirst('sku:', '', $file));
+        }
+
         foreach (config('imageresizer.external') as $placeholder => $url) {
             if (Str::startsWith($file, $placeholder)) {
                 $file = Str::replaceFirst($placeholder, '', $file);
@@ -70,6 +75,19 @@ class ImageController extends Controller
         }
 
         return $this->storage()->response($resizedPath);
+    }
+
+    public function productImageUrlFromSku(string $sku): string
+    {
+        $productModel = config('rapidez.models.product');
+        $flat = (new $productModel())->getTable();
+
+        $product = $productModel::withoutGlobalScopes()
+            ->selectAttributes(['image'])
+            ->where($flat . '.sku', $sku)
+            ->firstOrFail();
+
+        return 'magento/catalog/product' . $product->image;
     }
 
     public function addWaterMark(Image $image, string $width = '400', string $height = '400', string $size = '400'): Image

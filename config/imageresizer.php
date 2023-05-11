@@ -30,4 +30,6 @@ return [
         'magento' => env('MEDIA_URL', env('MAGENTO_URL').'/media'),
         // 'source-placeholder' => 'https://external-source.com',
     ],
+
+    'allow_sku' => true,
 ];
