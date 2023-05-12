@@ -81,7 +81,11 @@ class ImageController extends Controller
     {
         $productModel = config('rapidez.models.product');
         $query = $productModel::withoutGlobalScopes()->selectAttributes(['image']);
-        $product = $query->where($query->qualifyColumn('sku'), $sku)->firstOrFail();
+        $product = $query->where($query->qualifyColumn('sku'), $sku)->first();
+
+        if(!$product || !$product->image) {
+            return 'magento/catalog/placeholder.jpg';
+        }
 
         return 'magento/catalog/product'.$product->image;
     }
