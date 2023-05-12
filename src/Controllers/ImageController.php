@@ -80,12 +80,8 @@ class ImageController extends Controller
     public function productImageUrlFromSku(string $sku): string
     {
         $productModel = config('rapidez.models.product');
-        $flat = (new $productModel())->getTable();
-
-        $product = $productModel::withoutGlobalScopes()
-            ->selectAttributes(['image'])
-            ->where($flat.'.sku', $sku)
-            ->firstOrFail();
+        $query = $productModel::withoutGlobalScopes()->selectAttributes(['image']);
+        $product = $query->where($query->qualifyColumn('sku'), $sku)->firstOrFail();
 
         return 'magento/catalog/product'.$product->image;
     }

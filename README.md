@@ -7,6 +7,8 @@ Let's say a product image is located at: `https://magentowebsite.com/media/catal
 Automatic webp conversion will also be done if the url has `.webp` as it's extension e.g. `/storage/resizes/200x200/magento/catalog/product/a/a/product-image.jpg.webp`
 This will make it retrieve the image from `https://magentowebsite.com/media/catalog/product/a/a/product-image.jpg`, resize it, format it as webp and save it as `/storage/resizes/200x200/magento/catalog/product/a/a/product-image.jpg.webp`.
 
+You can also retrieve a product image by using the product's SKU. This is enabled by default, but can be toggled with the `allow_sku` value in the config file. To retrieve a product image using SKU, request a path like this: `/storage/resizes/200x200/sku:13706`. You can also request a webp using the same method as above: `/storage/resizes/200x200/sku:13706.webp`.
+
 ## Installation
 
 This package is installed by default in Rapidez. But if removed you can re-install it with:
