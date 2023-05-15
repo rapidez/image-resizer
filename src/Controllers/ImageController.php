@@ -83,7 +83,7 @@ class ImageController extends Controller
         $query = $productModel::withoutGlobalScopes()->selectAttributes(['image']);
         $product = $query->where($query->qualifyColumn('sku'), $sku)->first();
 
-        if(!$product || !$product->image) {
+        if (!$product || !$product->image) {
             return 'magento/catalog/placeholder.jpg';
         }
 
