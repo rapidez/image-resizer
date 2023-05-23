@@ -17,7 +17,8 @@ class ImageResizerServiceProvider extends ServiceProvider
     public function boot()
     {
         Route::get('storage/resizes/{size}/{file}{webp?}', ImageController::class)
-            ->where(['file' => '.*\.((?!webp)[^\.])+', 'webp' => '\.webp']);
+            ->where(['file' => '.*\.((?!webp)[^\.])+', 'webp' => '\.webp'])
+            ->name('resized-image');
 
         $this->mergeConfigFrom(__DIR__.'/../config/imageresizer.php', 'imageresizer');
 
