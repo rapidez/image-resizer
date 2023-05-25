@@ -18,11 +18,6 @@ class ImageController extends Controller
     {
         abort_unless(in_array($size, config('imageresizer.sizes')), 400, 'The requested size is not whitelisted.');
 
-        if (Str::startsWith($file, 'sku:')) {
-            abort_unless(config('imageresizer.allow_sku'), 400, 'Retrieving image by SKU is not enabled.');
-            $file = $this->productImageUrlFromSku(Str::replaceFirst('sku:', '', $file));
-        }
-
         foreach (config('imageresizer.external') as $placeholder => $url) {
             if (Str::startsWith($file, $placeholder)) {
                 $file = Str::replaceFirst($placeholder, '', $file);
@@ -75,6 +70,13 @@ class ImageController extends Controller
         }
 
         return $this->storage()->response($resizedPath);
+    }
+
+    public function redirectFromSku(Request $request, string $size, string $sku)
+    {
+        $webp = $request->exists('webp') ? '.webp' : '';
+        $file = $this->productImageUrlFromSku($sku);
+        return redirect()->route('resized-image', compact(['size', 'file', 'webp']), 301);
     }
 
     public function productImageUrlFromSku(string $sku): string
