@@ -76,6 +76,7 @@ class ImageController extends Controller
     {
         $webp = $request->exists('webp') ? '.webp' : '';
         $file = $this->productImageUrlFromSku($sku);
+        
         return redirect()->route('resized-image', compact(['size', 'file', 'webp']), 301);
     }
 
