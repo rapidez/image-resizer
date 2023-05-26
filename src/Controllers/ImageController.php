@@ -14,30 +14,24 @@ class ImageController extends Controller
 {
     protected array $tmpPaths = [];
 
-    public function __invoke(Request $request, int $store, string $size, string $file, string $webp = '')
+    public function __invoke(Request $request, int $store, string $size, string $placeholder, string $file, string $webp = '')
     {
         abort_unless(in_array($size, config('imageresizer.sizes')), 400, __('The requested size is not whitelisted.'));
         // Incorrect store is not authorized to generate another stores image.
         // Note: if storage is symlinked it will still SERVE the image.
         abort_if(config('rapidez.store') !== $store, 403);
 
-        foreach (config('imageresizer.external') as $placeholder => $url) {
-            if (Str::startsWith($file, $placeholder)) {
-                $file = Str::replaceFirst($placeholder, '', $file);
-                $placeholderUrl = $url;
-                break;
-            }
-        }
+        $placeholderUrl = config('imageresizer.external.' . $placeholder);
 
-        if (!isset($placeholderUrl) && !Str::startsWith($file, 'local/')) {
-            $file = 'local/' . $file;
-            return redirect(route('resized-image', @compact('store', 'size', 'file', 'webp')), 301);
+        if (!$placeholderUrl && $placeholder !== 'local') {
+            $file = $placeholder . '/' . $file;
+            $placeholder = 'local';
+            return redirect(route('resized-image', @compact('store', 'size', 'placeholder','file', 'webp')), 301);
         }
-        $file = Str::replaceFirst('local/', '', $file);
 
         $resizedPath = Str::after($request->path(), 'storage/');
         if (!$this->storage()->exists($resizedPath)) {
-            $content = isset($placeholderUrl)
+            $content = $placeholderUrl
                 ? $this->download($placeholderUrl.$file)
                 : $this->storage()->get(config('rapidez.store').'/'.$file);
 
