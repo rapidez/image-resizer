@@ -30,7 +30,8 @@ class ImageController extends Controller
         }
 
         if (!isset($placeholderUrl) && !Str::startsWith($file, 'local/')) {
-            $file = 'local/' . $file;
+            $file = 'local/'.$file;
+
             return redirect(route('resized-image', @compact('store', 'size', 'file', 'webp')), 301);
         }
         $file = Str::replaceFirst('local/', '', $file);
