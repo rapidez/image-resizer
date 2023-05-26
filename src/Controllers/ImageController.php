@@ -21,12 +21,13 @@ class ImageController extends Controller
         // Note: if storage is symlinked it will still SERVE the image.
         abort_if(config('rapidez.store') !== $store, 403);
 
-        $placeholderUrl = config('imageresizer.external.' . $placeholder);
+        $placeholderUrl = config('imageresizer.external.'.$placeholder);
 
         if (!$placeholderUrl && $placeholder !== 'local') {
-            $file = $placeholder . '/' . $file;
+            $file = $placeholder.'/'.$file;
             $placeholder = 'local';
-            return redirect(route('resized-image', @compact('store', 'size', 'placeholder','file', 'webp')), 301);
+
+            return redirect(route('resized-image', @compact('store', 'size', 'placeholder', 'file', 'webp')), 301);
         }
 
         $resizedPath = Str::after($request->path(), 'storage/');

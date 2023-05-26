@@ -11,8 +11,8 @@ class ImageResizerServiceProvider extends ServiceProvider
 {
     const PATTERNS = [
         'placeholder' => '[^\/]+',
-        'file'  => '.*\.((?!webp)[^\.])+',
-        'webp'  => '\.webp',
+        'file'        => '.*\.((?!webp)[^\.])+',
+        'webp'        => '\.webp',
     ];
 
     /**
