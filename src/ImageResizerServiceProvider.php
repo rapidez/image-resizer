@@ -24,7 +24,7 @@ class ImageResizerServiceProvider extends ServiceProvider
         Route::get('storage/{store}/resizes/{size}/{file}{webp?}', ImageController::class)
             ->where([
                 'store' => '[0-9]*',
-                ...self::PATTERNS
+                ...self::PATTERNS,
             ])
             ->name('resized-image');
 
