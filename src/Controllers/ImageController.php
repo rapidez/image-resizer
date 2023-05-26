@@ -30,7 +30,6 @@ class ImageController extends Controller
         }
 
         $resizedPath = Str::after($request->path(), 'storage/');
-        abort_if(str::contains($resizedPath, '../'), 403, __('Path traversal detected'));
         if (!$this->storage()->exists($resizedPath)) {
             $content = isset($placeholderUrl)
                 ? $this->download($placeholderUrl.$file)
