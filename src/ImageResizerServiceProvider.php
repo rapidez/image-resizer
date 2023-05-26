@@ -19,21 +19,20 @@ class ImageResizerServiceProvider extends ServiceProvider
         Route::get('storage/{store}/resizes/{size}/{file}{webp?}', ImageController::class)
             ->where([
                 'store' => '[0-9]*',
-                'file' => '.*\.((?!webp)[^\.])+',
-                'webp' => '\.webp'
+                'file'  => '.*\.((?!webp)[^\.])+',
+                'webp'  => '\.webp',
             ])
             ->name('resized-image');
 
         // Backwards compatibility step.
         Route::get(
             'storage/resizes/{size}/{file}{webp?}',
-            fn(string $size, string $file, string $webp) => redirect(route('resized-image', ['store' => config('rapidez.store'), 'size' => $size, 'file' => $file, 'webp' => $webp]), 301)
+            fn (string $size, string $file, string $webp) => redirect(route('resized-image', ['store' => config('rapidez.store'), 'size' => $size, 'file' => $file, 'webp' => $webp]), 301)
         )
         ->where([
             'file' => '.*\.((?!webp)[^\.])+',
-            'webp' => '\.webp'
+            'webp' => '\.webp',
         ]);
-
 
         $this->mergeConfigFrom(__DIR__.'/../config/imageresizer.php', 'imageresizer');
 
