@@ -31,10 +31,11 @@ class ImageController extends Controller
         }
 
         $resizedPath = Str::after($request->path(), 'storage/');
+        $file = Str::start($file, '/');
         if (!$this->storage()->exists($resizedPath)) {
             $content = $placeholderUrl
                 ? $this->download($placeholderUrl.$file)
-                : $this->storage()->get(config('rapidez.store').'/'.$file);
+                : $this->storage()->get(config('rapidez.store').$file);
 
             abort_unless($content, 404);
 
