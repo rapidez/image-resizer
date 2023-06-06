@@ -1,6 +1,12 @@
 # Changelog 
 
-[Unreleased changes](https://github.com/rapidez/image-resizer/compare/0.10.0...master)
+[Unreleased changes](https://github.com/rapidez/image-resizer/compare/0.10.1...master)
+## [0.10.1](https://github.com/rapidez/image-resizer/releases/tag/0.10.1) - 2023-06-06
+
+### Fixed
+
+- Ensure filename starts with slash (#27)
+
 ## [0.10.0](https://github.com/rapidez/image-resizer/releases/tag/0.10.0) - 2023-05-30
 
 ### Added
