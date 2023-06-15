@@ -85,7 +85,7 @@ class ImageController extends Controller
         $sku = pathinfo($baseFile)['filename'];
         $image = $this->productImageUrlFromSku($sku);
 
-        if($image == 'magento/catalog/placeholder.jpg') {
+        if ($image == 'magento/catalog/placeholder.jpg') {
             return redirect($this->getResizedPath($size, $image, $webp));
         }
 
@@ -98,7 +98,7 @@ class ImageController extends Controller
         }
 
         if (file_exists($pathImage)) {
-            if(is_link($pathSku)) {
+            if (is_link($pathSku)) {
                 unlink($pathSku);
             }
             symlink($pathImage, $pathSku);
