@@ -14,16 +14,28 @@ class ImageController extends Controller
 {
     protected array $tmpPaths = [];
 
-    public function __invoke(Request $request, string $size, string $file, string $webp = '')
+    public function __invoke(Request $request, int $store, string $size, string $placeholder, string $file, string $webp = '')
     {
-        abort_unless(in_array($size, config('imageresizer.sizes')), 400, 'The requested size is not whitelisted.');
+        abort_unless(in_array($size, config('imageresizer.sizes')), 400, __('The requested size is not whitelisted.'));
+        // Incorrect store is not authorized to generate another stores image.
+        // Note: if storage is symlinked it will still SERVE the image.
+        abort_if(config('rapidez.store') !== $store, 403);
 
-        $resizedPath = $this->getResizedPath($size, $file, $webp);
+        $placeholderUrl = config('imageresizer.external.'.$placeholder);
 
+        if (!$placeholderUrl && $placeholder !== 'local') {
+            $file = $placeholder.'/'.$file;
+            $placeholder = 'local';
+
+            return redirect(route('resized-image', @compact('store', 'size', 'placeholder', 'file', 'webp')), 301);
+        }
+
+        $resizedPath = Str::after($request->path(), 'storage/');
+        $file = Str::start($file, '/');
         if (!$this->storage()->exists($resizedPath)) {
-            $content = isset($placeholderUrl)
+            $content = $placeholderUrl
                 ? $this->download($placeholderUrl.$file)
-                : $this->storage()->get(config('rapidez.store').'/'.$file);
+                : $this->storage()->get(config('rapidez.store').$file);
 
             abort_unless($content, 404);
 
@@ -138,7 +150,7 @@ class ImageController extends Controller
 
         $image->watermark($tempWatermark)
             ->watermarkOpacity(Config::getCachedByPath('design/watermark/'.$watermark.'_imageOpacity', 100))
-            ->watermarkPosition(config('imageresizer.watermarks.positions.'.Config::getCachedByPath('design/watermark/'.$watermark.'_position', 'center')))
+            ->watermarkPosition(config('imageresizer.watermarks.positions.'.$position))
             ->watermarkHeight($height, Manipulations::UNIT_PIXELS)
             ->watermarkWidth($width, Manipulations::UNIT_PIXELS);
 

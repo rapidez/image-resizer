@@ -9,6 +9,12 @@ use Rapidez\ImageResizer\Controllers\ImageController;
 
 class ImageResizerServiceProvider extends ServiceProvider
 {
+    const PATTERNS = [
+        'placeholder' => '[^\/]+',
+        'file'        => '.*\.((?!webp)[^\.])+',
+        'webp'        => '\.webp',
+    ];
+
     /**
      * Bootstrap services.
      *
@@ -21,9 +27,17 @@ class ImageResizerServiceProvider extends ServiceProvider
                 ->name('resized-sku');
         }
 
-        Route::get('storage/resizes/{size}/{file}{webp?}', ImageController::class)
-            ->where(['file' => '.*\.((?!webp)[^\.])+', 'webp' => '\.webp'])
+        Route::get('storage/{store}/resizes/{size}/{placeholder}/{file}{webp?}', ImageController::class)
+            ->where([
+                'store' => '[0-9]*',
+                ...self::PATTERNS,
+            ])
             ->name('resized-image');
+
+        // Backwards compatibility step.
+        Route::get('storage/resizes/{size}/{placeholder}/{file}{webp?}', function (string $size, string $placeholder, string $file, string $webp) {
+            return redirect(route('resized-image', ['store' => config('rapidez.store'), ...compact('size', 'placeholder', 'file', 'webp')]), 301);
+        })->where(self::PATTERNS);
 
         $this->mergeConfigFrom(__DIR__.'/../config/imageresizer.php', 'imageresizer');
 
