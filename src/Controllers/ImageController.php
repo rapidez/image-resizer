@@ -18,19 +18,7 @@ class ImageController extends Controller
     {
         abort_unless(in_array($size, config('imageresizer.sizes')), 400, 'The requested size is not whitelisted.');
 
-        foreach (config('imageresizer.external') as $placeholder => $url) {
-            if (Str::startsWith($file, $placeholder)) {
-                $file = Str::replaceFirst($placeholder, '', $file);
-                $placeholderUrl = $url;
-                break;
-            }
-        }
-
-        $placeholder = isset($placeholderUrl)
-            ? $placeholder
-            : 'local';
-
-        $resizedPath = config('rapidez.store').'/resizes/'.$placeholder.'/'.$size.'/'.$file.$webp;
+        $resizedPath = $this->getResizedPath($size, $file, $webp);
 
         if (!$this->storage()->exists($resizedPath)) {
             $content = isset($placeholderUrl)
@@ -72,12 +60,51 @@ class ImageController extends Controller
         return $this->storage()->response($resizedPath);
     }
 
-    public function redirectFromSku(Request $request, string $size, string $sku)
+    public function getResizedPath(string $size, string $file, string $webp)
     {
-        $webp = $request->exists('webp') ? '.webp' : '';
-        $file = $this->productImageUrlFromSku($sku);
+        foreach (config('imageresizer.external') as $placeholder => $url) {
+            if (Str::startsWith($file, $placeholder)) {
+                $file = Str::replaceFirst($placeholder, '', $file);
+                $placeholderUrl = $url;
+                break;
+            }
+        }
 
-        return redirect()->route('resized-image', compact(['size', 'file', 'webp']), 301);
+        $placeholder = isset($placeholderUrl)
+            ? $placeholder
+            : 'local';
+
+        return config('rapidez.store').'/resizes/'.$placeholder.'/'.$size.'/'.$file.$webp;
+    }
+
+    public function redirectFromSku(Request $request, string $size, string $file)
+    {
+        $webp = str_ends_with($file, '.webp') ? '.webp' : '';
+        $baseFile = $webp ? str_replace_last('.webp', '', $file) : $file;
+
+        $sku = pathinfo($baseFile)['filename'];
+        $image = $this->productImageUrlFromSku($sku);
+
+        if($image == 'magento/catalog/placeholder.jpg') {
+            return redirect($this->getResizedPath($size, $image, $webp));
+        }
+
+        $resizedPath = $this->getResizedPath($size, 'magento/sku/'.$baseFile, $webp);
+        $pathSku = $this->storage()->path($resizedPath);
+        $pathImage = $this->storage()->path($this->getResizedPath($size, $image, $webp));
+
+        if (!is_dir(dirname($pathSku))) {
+            mkdir(dirname($pathSku));
+        }
+
+        if (file_exists($pathImage)) {
+            if(is_link($pathSku)) {
+                unlink($pathSku);
+            }
+            symlink($pathImage, $pathSku);
+        }
+
+        return $this->storage()->response($resizedPath);
     }
 
     public function productImageUrlFromSku(string $sku): string
