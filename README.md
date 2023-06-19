@@ -19,7 +19,7 @@ And make sure you ran `php artisan storage:link`
 
 You can retrieve a product image by using the product's SKU. This is enabled by default, but can be toggled with the `allow_sku` value in the config file.
 
-To retrieve a product image using SKU, request a path like this: `/storage/resizes/200x200/sku/13706`. You can also request a webp like this: `/storage/resizes/200x200/sku/13706?webp`.
+To retrieve a product image using SKU, request a path like this: `/storage/resizes/200x200/sku/13706.jpg`. You can also request a webp like this: `/storage/resizes/200x200/sku/13706.jpg.webp`.
 
 ## Config
 
