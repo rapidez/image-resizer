@@ -101,22 +101,21 @@ class ImageController extends Controller
             return redirect($this->getResizedPath($size, $image, $webp));
         }
 
-        $resizedPath = $this->getResizedPath($size, 'magento/sku/'.$baseFile, $webp);
-        $pathSku = $this->storage()->path($resizedPath);
-        $pathImage = $this->storage()->path($this->getResizedPath($size, $image, $webp));
+        $pathSku = $this->getResizedPath($size, 'magento/sku/'.$baseFile, $webp);
+        $pathImage = $this->getResizedPath($size, $image, $webp);
 
-        if (!is_dir(dirname($pathSku))) {
-            mkdir(dirname($pathSku));
+        if (!$this->storage()->directoryExists(dirname($pathSku))) {
+            $this->storage()->createDirectory(dirname($pathSku));
         }
 
-        if (file_exists($pathImage)) {
-            if (is_link($pathSku)) {
-                unlink($pathSku);
+        if ($this->storage()->has($pathImage)) {
+            if (is_link($this->storage()->path($pathSku))) {
+                unlink($this->storage()->path($pathSku));
             }
-            symlink($pathImage, $pathSku);
+            symlink($this->storage()->path($pathImage), $this->storage()->path($pathSku));
         }
 
-        return $this->storage()->response($resizedPath);
+        return $this->storage()->response($pathSku);
     }
 
     public function productImageUrlFromSku(string $sku): string
