@@ -30,7 +30,7 @@ class ImageResizerServiceProvider extends ServiceProvider
             ->name('resized-image');
 
         // Backwards compatibility step.
-        Route::get('storage/resizes/{size}/{placeholder}/{file}{webp?}', function (string $size, string $placeholder, string $file, string $webp) {
+        Route::get('storage/resizes/{size}/{placeholder}/{file}{webp?}', function (string $size, string $placeholder, string $file, string $webp = '') {
             return redirect(route('resized-image', ['store' => config('rapidez.store'), ...compact('size', 'placeholder', 'file', 'webp')]), 301);
         })->where(self::PATTERNS);
 
