@@ -1,6 +1,12 @@
 # Changelog 
 
-[Unreleased changes](https://github.com/rapidez/image-resizer/compare/0.10.1...master)
+[Unreleased changes](https://github.com/rapidez/image-resizer/compare/0.10.2...master)
+## [0.10.2](https://github.com/rapidez/image-resizer/releases/tag/0.10.2) - 2023-07-18
+
+### Fixed
+
+- Optional param fix (#28)
+
 ## [0.10.1](https://github.com/rapidez/image-resizer/releases/tag/0.10.1) - 2023-06-06
 
 ### Fixed
