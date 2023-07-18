@@ -95,27 +95,8 @@ class ImageController extends Controller
         $baseFile = $webp ? str_replace_last('.webp', '', $file) : $file;
 
         $sku = pathinfo($baseFile)['filename'];
-        $image = $this->productImageUrlFromSku($sku);
-
-        if ($image == 'magento/catalog/placeholder.jpg') {
-            return redirect($this->getResizedPath($size, $image, $webp));
-        }
-
-        $pathSku = $this->getResizedPath($size, 'magento/sku/'.$baseFile, $webp);
-        $pathImage = $this->getResizedPath($size, $image, $webp);
-
-        if (!$this->storage()->directoryExists(dirname($pathSku))) {
-            $this->storage()->createDirectory(dirname($pathSku));
-        }
-
-        if ($this->storage()->has($pathImage)) {
-            if (is_link($this->storage()->path($pathSku))) {
-                unlink($this->storage()->path($pathSku));
-            }
-            symlink($this->storage()->path($pathImage), $this->storage()->path($pathSku));
-        }
-
-        return $this->storage()->response($pathSku);
+        $file = $this->productImageUrlFromSku($sku);
+        return redirect($this->getResizedPath($size, $file, $webp), 301);
     }
 
     public function productImageUrlFromSku(string $sku): string
