@@ -23,7 +23,7 @@ To retrieve a product image using SKU, request a path like this: `/storage/1/res
 
 ## Config
 
-Keep in mind that you've to whitelist all sizes to avoid ddos attacks! Publish the config and specify the sizes you want:
+Keep in mind that you have to whitelist all sizes to avoid ddos attacks! Publish the config and specify the sizes you want:
 
 ```sh
 php artisan vendor:publish --provider="Rapidez\ImageResizer\ImageResizerServiceProvider" --tag=config
@@ -56,9 +56,9 @@ Or alternatively using Laravels route function
 ]) }}" />
 ```
 
-## How it's working
+## How it works
 
-Images are downloaded from the media url and stored in `/storage/app/public/<store>/resizes`. Because of the symlink created with `php artisan storage:link` the files are publicly availabe and because the route is the same as the path; the webserver first tries to serve the file if it exists, otherwise it will go through PHP to resize and create it.
+Images are downloaded from the media url and stored in `/storage/app/public/<store>/resizes`. Because of the symlink created with `php artisan storage:link` the files are then publicly available. Because the route is the same as the path, the webserver first tries to serve the file if it exists, otherwise it will go through PHP to resize and create it.
 
 ## Deleting resizes
 
