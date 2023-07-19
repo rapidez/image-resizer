@@ -32,10 +32,10 @@ return [
     ],
 
     'sku' => [
-        'enabled' => false,
+        'enabled'  => false,
         'redirect' => [
             'status_code' => 302,
-            'max_age' => 3600,
+            'max_age'     => 3600,
         ],
     ],
 ];
