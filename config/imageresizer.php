@@ -31,5 +31,11 @@ return [
         // 'source-placeholder' => 'https://external-source.com',
     ],
 
-    'allow_sku' => true,
+    'sku' => [
+        'enabled' => false,
+        'redirect' => [
+            'status_code' => 302,
+            'max_age' => 3600,
+        ],
+    ],
 ];

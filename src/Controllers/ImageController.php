@@ -79,7 +79,10 @@ class ImageController extends Controller
         $file = $this->productImageUrlFromSku($sku);
         $placeholder = 'magento';
 
-        return redirect(route('resized-image', @compact('store', 'size', 'placeholder', 'file', 'webp')), 301)->setPublic()->setMaxAge(3600);
+        return redirect(
+            route('resized-image', @compact('store', 'size', 'placeholder', 'file', 'webp')),
+            config('imageresizer.sku.redirect.status_code')
+        )->setPublic()->setMaxAge(config('imageresizer.sku.redirect.max_age'));
     }
 
     public function productImageUrlFromSku(string $sku): string
