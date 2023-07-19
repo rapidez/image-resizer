@@ -72,31 +72,14 @@ class ImageController extends Controller
         return $this->storage()->response($resizedPath);
     }
 
-    public function getResizedPath(string $size, string $file, string $webp)
-    {
-        foreach (config('imageresizer.external') as $placeholder => $url) {
-            if (Str::startsWith($file, $placeholder)) {
-                $file = Str::replaceFirst($placeholder, '', $file);
-                $placeholderUrl = $url;
-                break;
-            }
-        }
-
-        $placeholder = isset($placeholderUrl)
-            ? $placeholder
-            : 'local';
-
-        return config('rapidez.store').'/resizes/'.$placeholder.'/'.$size.'/'.$file.$webp;
-    }
-
-    public function redirectFromSku(Request $request, string $size, string $file)
+    public function redirectFromSku(Request $request, int $store, string $size, string $file)
     {
         $webp = str_ends_with($file, '.webp') ? '.webp' : '';
-        $baseFile = $webp ? str_replace_last('.webp', '', $file) : $file;
-
-        $sku = pathinfo($baseFile)['filename'];
+        $sku = $webp ? str_replace_last('.webp', '', $file) : $file;
         $file = $this->productImageUrlFromSku($sku);
-        return redirect($this->getResizedPath($size, $file, $webp), 301);
+        $placeholder = 'magento';
+
+        return redirect(route('resized-image', @compact('store', 'size', 'placeholder', 'file', 'webp')), 301)->setPublic()->setMaxAge(3600);
     }
 
     public function productImageUrlFromSku(string $sku): string
@@ -106,10 +89,10 @@ class ImageController extends Controller
         $product = $query->where($query->qualifyColumn('sku'), $sku)->first();
 
         if (!$product || !$product->image) {
-            return 'magento/catalog/placeholder.jpg';
+            return 'catalog/placeholder.jpg';
         }
 
-        return 'magento/catalog/product'.$product->image;
+        return 'catalog/product'.$product->image;
     }
 
     public function addWaterMark(Image $image, string $width = '400', string $height = '400', string $size = '400'): Image

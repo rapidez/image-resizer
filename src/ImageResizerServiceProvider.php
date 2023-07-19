@@ -23,7 +23,7 @@ class ImageResizerServiceProvider extends ServiceProvider
     public function boot()
     {
         if (config('imageresizer.allow_sku')) {
-            Route::get('storage/resizes/{size}/sku/{file}', [ImageController::class, 'redirectFromSku'])
+            Route::get('storage/{store}/resizes/{size}/sku/{file}', [ImageController::class, 'redirectFromSku'])
                 ->name('resized-sku');
         }
 
