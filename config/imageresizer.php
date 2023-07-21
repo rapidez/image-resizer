@@ -34,10 +34,10 @@ return [
     // Enable image URL's by SKU like:
     // /storage/1/resizes/80x70/SKU
     'sku' => [
-        'enabled' => true,
+        'enabled'  => true,
         'redirect' => [
             'status_code' => 302,
-            'max_age' => 86400, // One day
+            'max_age'     => 86400, // One day
         ],
     ],
 ];
