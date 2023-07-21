@@ -72,6 +72,32 @@ class ImageController extends Controller
         return $this->storage()->response($resizedPath);
     }
 
+    public function redirectFromSku(Request $request, int $store, string $size, string $file)
+    {
+        $webp = str_ends_with($file, '.webp') ? '.webp' : '';
+        $sku = $webp ? str_replace_last('.webp', '', $file) : $file;
+        $file = $this->productImageUrlFromSku($sku);
+        $placeholder = 'magento';
+
+        return redirect(
+            route('resized-image', compact('store', 'size', 'placeholder', 'file', 'webp')),
+            config('imageresizer.sku.redirect.status_code')
+        )->setPublic()->setMaxAge(config('imageresizer.sku.redirect.max_age'));
+    }
+
+    public function productImageUrlFromSku(string $sku): string
+    {
+        $productModel = config('rapidez.models.product');
+        $query = $productModel::withoutGlobalScopes()->selectAttributes(['image']);
+        $product = $query->where($query->qualifyColumn('sku'), $sku)->first();
+
+        if (!$product || !$product->image) {
+            return 'catalog/placeholder.jpg';
+        }
+
+        return 'catalog/product'.$product->image;
+    }
+
     public function addWaterMark(Image $image, string $width = '400', string $height = '400', string $size = '400'): Image
     {
         $watermark = $width < 200 ? 'thumbnail' : ($width >= 200 && $width < 600 ? 'small_image' : 'image');
