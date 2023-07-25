@@ -51,7 +51,7 @@
 
 ### Fixed
 
-- Fix capitalisation on watermarkImage (e70a58fdaaacd61354fe27cef46afaee6b85947a)
+- Fix capitalisation on watermarkImage (e70a58f)
 
 ## [0.8.0](https://github.com/rapidez/image-resizer/releases/tag/0.8.0) - 2023-03-06
 
