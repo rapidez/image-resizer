@@ -1,6 +1,18 @@
 # Changelog 
 
-[Unreleased changes](https://github.com/rapidez/image-resizer/compare/0.10.2...master)
+[Unreleased changes](https://github.com/rapidez/image-resizer/compare/0.11.1...master)
+## [0.11.1](https://github.com/rapidez/image-resizer/releases/tag/0.11.1) - 2023-08-22
+
+### Fixed
+
+- Merge config first so it can be used (#29)
+
+## [0.11.0](https://github.com/rapidez/image-resizer/releases/tag/0.11.0) - 2023-07-25
+
+### Added
+
+- Possibility to get a product image by SKU (#24)
+
 ## [0.10.2](https://github.com/rapidez/image-resizer/releases/tag/0.10.2) - 2023-07-18
 
 ### Fixed
