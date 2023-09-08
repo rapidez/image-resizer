@@ -1,6 +1,12 @@
 # Changelog 
 
-[Unreleased changes](https://github.com/rapidez/image-resizer/compare/0.11.1...master)
+[Unreleased changes](https://github.com/rapidez/image-resizer/compare/0.12.0...master)
+## [0.12.0](https://github.com/rapidez/image-resizer/releases/tag/0.12.0) - 2023-09-08
+
+### Added
+
+- Laravel 10 support (5d5cffa)
+
 ## [0.11.1](https://github.com/rapidez/image-resizer/releases/tag/0.11.1) - 2023-08-22
 
 ### Fixed
