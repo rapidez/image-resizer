@@ -18,9 +18,9 @@
     "prefer-stable": true,
     "require": {
         "php": "^8.0|^8.1",
-        "illuminate/http": "^9.0",
-        "illuminate/routing": "^9.0",
-        "illuminate/support": "^9.0",
+        "illuminate/http": "^9.0|^10.0",
+        "illuminate/routing": "^9.0|^10.0",
+        "illuminate/support": "^9.0|^10.0",
         "rapidez/core": "~0.54|^1.0",
         "spatie/image": "^2.2"
     },
