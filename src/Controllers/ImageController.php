@@ -75,7 +75,7 @@ class ImageController extends Controller
     public function redirectFromSku(Request $request, int $store, string $size, string $file)
     {
         $webp = str_ends_with($file, '.webp') ? '.webp' : '';
-        $sku = $webp ? str_replace_last('.webp', '', $file) : $file;
+        $sku = $webp ? Str::replaceLast('.webp', '', $file) : $file;
         $file = $this->productImageUrlFromSku($sku);
         $placeholder = 'magento';
 
