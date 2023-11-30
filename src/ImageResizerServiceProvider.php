@@ -22,9 +22,9 @@ class ImageResizerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/imageresizer.php', 'imageresizer');
+        $this->mergeConfigFrom(__DIR__.'/../config/rapidez/imageresizer.php', 'rapidez.imageresizer');
 
-        if (config('imageresizer.sku.enabled')) {
+        if (config('rapidez.imageresizer.sku.enabled')) {
             Route::get('storage/{store}/resizes/{size}/sku/{file}', [ImageController::class, 'redirectFromSku'])
                 ->name('resized-sku');
         }
@@ -42,7 +42,7 @@ class ImageResizerServiceProvider extends ServiceProvider
         })->where(self::PATTERNS);
 
         $this->publishes([
-            __DIR__.'/../config/imageresizer.php' => config_path('imageresizer.php'),
+            __DIR__.'/../config/rapidez/imageresizer.php' => config_path('rapidez/imageresizer.php'),
         ], 'config');
 
         $this->commands([

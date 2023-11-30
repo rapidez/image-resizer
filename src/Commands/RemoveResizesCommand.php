@@ -35,6 +35,6 @@ class RemoveResizesCommand extends Command
 
     protected function storage()
     {
-        return Storage::disk(config('imageresizer.disk'));
+        return Storage::disk(config('rapidez.imageresizer.disk'));
     }
 }
