@@ -1,6 +1,16 @@
 # Changelog 
 
-[Unreleased changes](https://github.com/rapidez/image-resizer/compare/0.12.0...master)
+[Unreleased changes](https://github.com/rapidez/image-resizer/compare/0.13.0...master)
+## [0.13.0](https://github.com/rapidez/image-resizer/releases/tag/0.13.0) - 2023-11-30
+
+### Changed
+
+- Move config file to Rapidez folder (#31)
+
+### Fixed
+
+- Fix str_replace_last (#30)
+
 ## [0.12.0](https://github.com/rapidez/image-resizer/releases/tag/0.12.0) - 2023-09-08
 
 ### Added
