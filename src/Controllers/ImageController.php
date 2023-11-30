@@ -16,12 +16,12 @@ class ImageController extends Controller
 
     public function __invoke(Request $request, int $store, string $size, string $placeholder, string $file, string $webp = '')
     {
-        abort_unless(in_array($size, config('imageresizer.sizes')), 400, __('The requested size is not whitelisted.'));
+        abort_unless(in_array($size, config('rapidez.imageresizer.sizes')), 400, __('The requested size is not whitelisted.'));
         // Incorrect store is not authorized to generate another stores image.
         // Note: if storage is symlinked it will still SERVE the image.
         abort_if(config('rapidez.store') !== $store, 403);
 
-        $placeholderUrl = config('imageresizer.external.'.$placeholder);
+        $placeholderUrl = config('rapidez.imageresizer.external.'.$placeholder);
 
         if (!$placeholderUrl && $placeholder !== 'local') {
             $file = $placeholder.'/'.$file;
@@ -81,8 +81,8 @@ class ImageController extends Controller
 
         return redirect(
             route('resized-image', compact('store', 'size', 'placeholder', 'file', 'webp')),
-            config('imageresizer.sku.redirect.status_code')
-        )->setPublic()->setMaxAge(config('imageresizer.sku.redirect.max_age'));
+            config('rapidez.imageresizer.sku.redirect.status_code')
+        )->setPublic()->setMaxAge(config('rapidez.imageresizer.sku.redirect.max_age'));
     }
 
     public function productImageUrlFromSku(string $sku): string
@@ -116,7 +116,7 @@ class ImageController extends Controller
 
         $image->watermark($tempWatermark)
             ->watermarkOpacity(Config::getCachedByPath('design/watermark/'.$watermark.'_imageOpacity', 100))
-            ->watermarkPosition(config('imageresizer.watermarks.positions.'.$position))
+            ->watermarkPosition(config('rapidez.imageresizer.watermarks.positions.'.$position))
             ->watermarkHeight($height, Manipulations::UNIT_PIXELS)
             ->watermarkWidth($width, Manipulations::UNIT_PIXELS);
 
@@ -125,7 +125,7 @@ class ImageController extends Controller
 
     public function storage()
     {
-        return Storage::disk(config('imageresizer.disk'));
+        return Storage::disk(config('rapidez.imageresizer.disk'));
     }
 
     public function download($url)
