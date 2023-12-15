@@ -40,7 +40,7 @@ class ImageController extends Controller
             abort_unless($content, 404);
 
             $tempFile = $this->createTempFile($content);
-            $image = Image::load($tempFile)->optimize();
+            $image = Image::load($tempFile)->useImageDriver(config('rapidez.imageresizer.driver', 'imagick'))->optimize();
             @list($width, $height) = explode('x', $size);
 
             // Don't upscale images.
