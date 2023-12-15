@@ -6,6 +6,11 @@ return [
     // See config/filesystems.php
     'disk' => env('RAPIDEZ_DISK', 'public'),
 
+    // Which driver should be used? Two options:
+    // - gd
+    // - imagick
+    'driver' => env('RAPIDEZ_IMAGE_DRIVER', 'imagick'),
+
     'sizes' => [
         '80x80',   // Thumbs
         '400',     // Product
