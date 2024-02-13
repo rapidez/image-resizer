@@ -9,7 +9,7 @@ return [
     // Which driver should be used? Two options:
     // - gd
     // - imagick
-    'driver' => env('RAPIDEZ_IMAGE_DRIVER', 'imagick'),
+    'driver' => env('RAPIDEZ_IMAGE_DRIVER', extension_loaded('imagick') ? 'imagick' : 'gd'),
 
     'sizes' => [
         '80x80',   // Thumbs
