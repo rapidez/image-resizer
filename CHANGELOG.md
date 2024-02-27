@@ -1,6 +1,16 @@
 # Changelog 
 
-[Unreleased changes](https://github.com/rapidez/image-resizer/compare/0.14.0...master)
+[Unreleased changes](https://github.com/rapidez/image-resizer/compare/0.15.0...master)
+## [0.15.0](https://github.com/rapidez/image-resizer/releases/tag/0.15.0) - 2024-02-27
+
+### Added
+
+- Support Rapidez v2 (#34)
+
+### Changed
+
+- Auto detect image driver (#33)
+
 ## [0.14.0](https://github.com/rapidez/image-resizer/releases/tag/0.14.0) - 2023-12-15
 
 ### Changed
