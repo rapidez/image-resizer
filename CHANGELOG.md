@@ -1,6 +1,14 @@
 # Changelog 
 
-[Unreleased changes](https://github.com/rapidez/image-resizer/compare/0.15.0...master)
+[Unreleased changes](https://github.com/rapidez/image-resizer/compare/2.0.0...master)
+## [2.0.0](https://github.com/rapidez/image-resizer/releases/tag/2.0.0) - 2024-05-28
+
+You should update your `config/rapidez/imageresizer.php` with the changes from the PR!
+
+### Changed
+
+- Laravel 11 support + spatie/image v3 upgrade (#35)
+
 ## [0.15.0](https://github.com/rapidez/image-resizer/releases/tag/0.15.0) - 2024-02-27
 
 ### Added
