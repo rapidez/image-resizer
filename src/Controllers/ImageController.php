@@ -7,8 +7,9 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Rapidez\Core\Models\Config;
+use Spatie\Image\Enums\Fit;
+use Spatie\Image\Enums\Unit;
 use Spatie\Image\Image;
-use Spatie\Image\Manipulations;
 
 class ImageController extends Controller
 {
@@ -40,7 +41,7 @@ class ImageController extends Controller
             abort_unless($content, 404);
 
             $tempFile = $this->createTempFile($content);
-            $image = Image::load($tempFile)->useImageDriver(config('rapidez.imageresizer.driver', 'imagick'))->optimize();
+            $image = Image::useImageDriver(config('rapidez.imageresizer.driver', 'imagick'))->loadFile($tempFile)->optimize();
             @list($width, $height) = explode('x', $size);
 
             // Don't upscale images.
@@ -51,7 +52,7 @@ class ImageController extends Controller
             }
 
             if ($height) {
-                $image->fit($request->has('crop') ? MANIPULATIONS::FIT_CROP : MANIPULATIONS::FIT_CONTAIN, $width, $height);
+                $image->fit($request->has('crop') ? Fit::Crop : Fit::Contain, $width, $height);
             } else {
                 $image->width($width);
             }
@@ -61,7 +62,7 @@ class ImageController extends Controller
                 : $image;
 
             if ($webp) {
-                $image->format(Manipulations::FORMAT_WEBP);
+                $image->format('webp');
             }
 
             $image->save();
@@ -114,11 +115,15 @@ class ImageController extends Controller
         $watermarkImage = $this->download(config('rapidez.media_url').'/catalog/product/watermark/'.$watermarkImage);
         $tempWatermark = $this->createTempFile($watermarkImage);
 
-        $image->watermark($tempWatermark)
-            ->watermarkOpacity(Config::getCachedByPath('design/watermark/'.$watermark.'_imageOpacity', 100))
-            ->watermarkPosition(config('rapidez.imageresizer.watermarks.positions.'.$position))
-            ->watermarkHeight($height, Manipulations::UNIT_PIXELS)
-            ->watermarkWidth($width, Manipulations::UNIT_PIXELS);
+        $image->watermark(
+            watermarkImage: $tempWatermark,
+            position: config('rapidez.imageresizer.watermarks.positions.'.$position),
+            width: $width,
+            widthUnit: Unit::Pixel,
+            height: $height,
+            heightUnit: Unit::Pixel,
+            alpha: Config::getCachedByPath('design/watermark/'.$watermark.'_imageOpacity', 100)
+        );
 
         return $image;
     }
