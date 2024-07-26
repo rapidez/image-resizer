@@ -1,6 +1,12 @@
 # Changelog 
 
-[Unreleased changes](https://github.com/rapidez/image-resizer/compare/2.0.0...master)
+[Unreleased changes](https://github.com/rapidez/image-resizer/compare/2.0.1...master)
+## [2.0.1](https://github.com/rapidez/image-resizer/releases/tag/2.0.1) - 2024-07-26
+
+### Fixed
+
+- Create temp files with file extension (#36)
+
 ## [2.0.0](https://github.com/rapidez/image-resizer/releases/tag/2.0.0) - 2024-05-28
 
 You should update your `config/rapidez/imageresizer.php` with the changes from the PR!
