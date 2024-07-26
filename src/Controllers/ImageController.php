@@ -144,7 +144,7 @@ class ImageController extends Controller
 
     public function createTempFile($content, $extension = '')
     {
-        $temp = tempnam(sys_get_temp_dir(), 'rapidez') . ($extension ? '.' . $extension : '');
+        $temp = tempnam(sys_get_temp_dir(), 'rapidez').($extension ? '.'.$extension : '');
         $this->tmpPaths[] = $temp;
         file_put_contents($temp, $content);
 
