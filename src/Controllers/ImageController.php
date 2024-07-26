@@ -40,7 +40,7 @@ class ImageController extends Controller
 
             abort_unless($content, 404);
 
-            $tempFile = $this->createTempFile($content);
+            $tempFile = $this->createTempFile($content, pathinfo($file, PATHINFO_EXTENSION));
             $image = Image::useImageDriver(config('rapidez.imageresizer.driver', 'imagick'))->loadFile($tempFile)->optimize();
             @list($width, $height) = explode('x', $size);
 
@@ -112,8 +112,8 @@ class ImageController extends Controller
         $size = Config::getCachedByPath('design/watermark/'.$watermark.'_size', '100x100');
 
         @list($height, $width) = explode('x', $size);
-        $watermarkImage = $this->download(config('rapidez.media_url').'/catalog/product/watermark/'.$watermarkImage);
-        $tempWatermark = $this->createTempFile($watermarkImage);
+        $watermarkImageContent = $this->download(config('rapidez.media_url').'/catalog/product/watermark/'.$watermarkImage);
+        $tempWatermark = $this->createTempFile($watermarkImageContent, pathinfo($watermarkImage, PATHINFO_EXTENSION));
 
         $image->watermark(
             watermarkImage: $tempWatermark,
@@ -142,9 +142,9 @@ class ImageController extends Controller
         return $content;
     }
 
-    public function createTempFile($content)
+    public function createTempFile($content, $extension = '')
     {
-        $temp = tempnam(sys_get_temp_dir(), 'rapidez');
+        $temp = tempnam(sys_get_temp_dir(), 'rapidez') . ($extension ? '.' . $extension : '');
         $this->tmpPaths[] = $temp;
         file_put_contents($temp, $content);
 
