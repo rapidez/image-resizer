@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Rapidez\Core\Facades\Rapidez;
-use Rapidez\Core\Http\Middleware\AuthenticateHealthCheck;
 use Rapidez\ImageResizer\Controllers\ImageController;
 
 const PATTERNS = [

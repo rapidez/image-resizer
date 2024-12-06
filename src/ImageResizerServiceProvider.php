@@ -4,7 +4,6 @@ namespace Rapidez\ImageResizer;
 
 use Illuminate\Support\ServiceProvider;
 use Rapidez\ImageResizer\Commands\RemoveResizesCommand;
-use Rapidez\ImageResizer\Controllers\ImageController;
 use Rapidez\ImageResizer\Listeners\Healthcheck\ImageGenerationHealthcheck;
 
 class ImageResizerServiceProvider extends ServiceProvider
