@@ -33,7 +33,7 @@ class ImageResizerServiceProvider extends ServiceProvider
 
     public function bootRoutes(): self
     {
-        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
 
         return $this;
     }

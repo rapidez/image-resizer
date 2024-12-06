@@ -2,8 +2,8 @@
 
 namespace Rapidez\ImageResizer\Listeners\Healthcheck;
 
-use \Rapidez\Core\Listeners\Healthcheck\Base;
 use Rapidez\Core\Facades\Rapidez;
+use Rapidez\Core\Listeners\Healthcheck\Base;
 
 class ImageGenerationHealthcheck extends Base
 {
