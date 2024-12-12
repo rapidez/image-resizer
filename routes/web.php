@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Because these routes should mimic static files, no middlewares are applied.
+ */
+
 use Illuminate\Support\Facades\Route;
 use Rapidez\ImageResizer\Controllers\ImageController;
 
