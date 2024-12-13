@@ -1,6 +1,17 @@
 # Changelog 
 
-[Unreleased changes](https://github.com/rapidez/image-resizer/compare/2.0.1...master)
+[Unreleased changes](https://github.com/rapidez/image-resizer/compare/3.0.0...master)
+## [3.0.0](https://github.com/rapidez/image-resizer/releases/tag/3.0.0) - 2024-12-13
+
+### Added
+
+- Added v3 to dependencies (c64cc3d)
+- Magento image hash generation healthcheck + moved routes (#37)
+
+### Fixed
+
+- Fixed "PATTERNS already defined" (70fc2ba)
+
 ## [2.0.1](https://github.com/rapidez/image-resizer/releases/tag/2.0.1) - 2024-07-26
 
 ### Fixed
