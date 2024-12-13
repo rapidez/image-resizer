@@ -1,6 +1,12 @@
 # Changelog 
 
-[Unreleased changes](https://github.com/rapidez/image-resizer/compare/3.0.0...master)
+[Unreleased changes](https://github.com/rapidez/image-resizer/compare/3.0.1...master)
+## [3.0.1](https://github.com/rapidez/image-resizer/releases/tag/3.0.1) - 2024-12-13
+
+### Fixed
+
+- Fixed path casing (1f8c186)
+
 ## [3.0.0](https://github.com/rapidez/image-resizer/releases/tag/3.0.0) - 2024-12-13
 
 ### Added
