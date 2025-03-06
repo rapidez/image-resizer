@@ -1,6 +1,12 @@
 # Changelog 
 
-[Unreleased changes](https://github.com/rapidez/image-resizer/compare/3.0.1...master)
+[Unreleased changes](https://github.com/rapidez/image-resizer/compare/3.1.0...master)
+## [3.1.0](https://github.com/rapidez/image-resizer/releases/tag/3.1.0) - 2025-03-06
+
+### Added
+
+- Laravel 12 support (#38)
+
 ## [3.0.1](https://github.com/rapidez/image-resizer/releases/tag/3.0.1) - 2024-12-13
 
 ### Fixed
