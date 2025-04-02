@@ -15,6 +15,7 @@ $patterns = [
 
 if (config('rapidez.imageresizer.sku.enabled')) {
     Route::get('storage/{store}/resizes/{size}/sku/{file}', [ImageController::class, 'redirectFromSku'])
+        ->where('file', '(.*)')
         ->name('resized-sku');
 }
 
