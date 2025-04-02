@@ -1,6 +1,12 @@
 # Changelog 
 
-[Unreleased changes](https://github.com/rapidez/image-resizer/compare/3.1.0...master)
+[Unreleased changes](https://github.com/rapidez/image-resizer/compare/3.1.1...master)
+## [3.1.1](https://github.com/rapidez/image-resizer/releases/tag/3.1.1) - 2025-04-02
+
+### Fixed
+
+- Allow for slashes in SKU (#39)
+
 ## [3.1.0](https://github.com/rapidez/image-resizer/releases/tag/3.1.0) - 2025-03-06
 
 ### Added
