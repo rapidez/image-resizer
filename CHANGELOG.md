@@ -1,6 +1,12 @@
 # Changelog 
 
-[Unreleased changes](https://github.com/rapidez/image-resizer/compare/3.1.1...master)
+[Unreleased changes](https://github.com/rapidez/image-resizer/compare/4.0.0...master)
+## [4.0.0](https://github.com/rapidez/image-resizer/releases/tag/4.0.0) - 2025-05-20
+
+### Added
+
+- Rapidez v4 support (319e85d)
+
 ## [3.1.1](https://github.com/rapidez/image-resizer/releases/tag/3.1.1) - 2025-04-02
 
 ### Fixed
