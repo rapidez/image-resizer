@@ -89,7 +89,7 @@ class ImageController extends Controller
     public function productImageUrlFromSku(string $sku): string
     {
         $productModel = config('rapidez.models.product');
-        $query = $productModel::withoutGlobalScopes()->selectAttributes(['image']);
+        $query = $productModel::query();
         $product = $query->where($query->qualifyColumn('sku'), $sku)->first();
 
         if (!$product || !$product->image) {
