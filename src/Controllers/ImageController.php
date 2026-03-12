@@ -41,7 +41,8 @@ class ImageController extends Controller
                 !in_array(
                     strtolower(
                         pathinfo($file, PATHINFO_EXTENSION)
-                    ), [
+                    ),
+                    [
                         'jpg',
                         'jpeg',
                         'jfif',
@@ -157,7 +158,7 @@ class ImageController extends Controller
 
     private function getPlaceholderImageHash()
     {
-        return Cache::rememberForever('placeholder-hash-'.config('rapidez.store'), fn() => md5(file_get_contents(config('rapidez.imageresizer.external.magento').'/catalog/product'.Str::start(Rapidez::config('catalog/placeholder/image_placeholder'), '/'))));
+        return Cache::rememberForever('placeholder-hash-'.config('rapidez.store'), fn () => md5(file_get_contents(config('rapidez.imageresizer.external.magento').'/catalog/product'.Str::start(Rapidez::config('catalog/placeholder/image_placeholder'), '/'))));
     }
 
     public function storage()
