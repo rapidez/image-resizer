@@ -1,6 +1,18 @@
 # Changelog 
 
-[Unreleased changes](https://github.com/rapidez/image-resizer/compare/5.0.0...master)
+[Unreleased changes](https://github.com/rapidez/image-resizer/compare/5.0.2...master)
+## [5.0.2](https://github.com/rapidez/image-resizer/releases/tag/5.0.2) - 2026-03-13
+
+### Fixed
+
+- Prevent saving and serving invalid extensions (#42)
+
+## [5.0.1](https://github.com/rapidez/image-resizer/releases/tag/5.0.1) - 2026-01-06
+
+### Fixed
+
+- Image by SKU v5 compatibility (#41)
+
 ## [5.0.0](https://github.com/rapidez/image-resizer/releases/tag/5.0.0) - 2025-11-25
 
 ### Added
