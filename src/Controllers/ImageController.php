@@ -4,8 +4,10 @@ namespace Rapidez\ImageResizer\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Rapidez\Core\Facades\Rapidez;
 use Rapidez\Core\Models\Config;
 use Spatie\Image\Enums\Fit;
 use Spatie\Image\Enums\Unit;
@@ -34,6 +36,25 @@ class ImageController extends Controller
         $resizedPath = Str::after($request->path(), 'storage/');
         $file = Str::start($file, '/');
         if (!$this->storage()->exists($resizedPath)) {
+            // These are the file types supported by GD
+            abort_if(
+                !in_array(
+                    strtolower(
+                        pathinfo($file, PATHINFO_EXTENSION)
+                    ),
+                    [
+                        'jpg',
+                        'jpeg',
+                        'jfif',
+                        'png',
+                        'gif',
+                        'webp',
+                        'avif',
+                    ]
+                ),
+                404
+            );
+
             $content = $placeholderUrl
                 ? $this->download($placeholderUrl.$file)
                 : $this->storage()->get(config('rapidez.store').$file);
@@ -63,6 +84,13 @@ class ImageController extends Controller
 
             if ($webp) {
                 $image->format('webp');
+            }
+
+            // Do not save the file and serve immediately if it is a placeholder
+            if ($this->getPlaceholderImageHash() === md5(file_get_contents($tempFile))) {
+                $image->save();
+
+                return response()->file($tempFile)->setMaxAge(60 * 60 * 24);
             }
 
             $image->save();
@@ -126,6 +154,11 @@ class ImageController extends Controller
         );
 
         return $image;
+    }
+
+    private function getPlaceholderImageHash()
+    {
+        return Cache::rememberForever('placeholder-hash-'.config('rapidez.store'), fn () => md5(file_get_contents(config('rapidez.imageresizer.external.magento').'/catalog/product'.Str::start(Rapidez::config('catalog/placeholder/image_placeholder'), '/'))));
     }
 
     public function storage()
