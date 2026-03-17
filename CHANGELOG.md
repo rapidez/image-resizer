@@ -1,6 +1,12 @@
 # Changelog 
 
-[Unreleased changes](https://github.com/rapidez/image-resizer/compare/5.0.2...master)
+[Unreleased changes](https://github.com/rapidez/image-resizer/compare/5.0.3...5.0.3)
+## [5.0.3](https://github.com/rapidez/image-resizer/releases/tag/5.0.3) - 2026-03-17
+
+### Fixed
+
+- Fix not found errors for placeholder (#45)
+
 ## [5.0.2](https://github.com/rapidez/image-resizer/releases/tag/5.0.2) - 2026-03-13
 
 ### Fixed
