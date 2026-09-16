@@ -86,6 +86,10 @@ class ImageController extends Controller
                 $image->format('webp');
             }
 
+            if ($quality = config('rapidez.imageresizer.quality')) {
+                $image->quality($quality);
+            }
+
             // Do not save the file and serve immediately if it is a placeholder
             if ($this->getPlaceholderImageHash() === md5(file_get_contents($tempFile))) {
                 $image->save();
