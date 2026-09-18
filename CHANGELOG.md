@@ -1,6 +1,12 @@
 # Changelog 
 
-[Unreleased changes](https://github.com/rapidez/image-resizer/compare/5.0.3...5.0.3)
+[Unreleased changes](https://github.com/rapidez/image-resizer/compare/5.1.0...5.1.0)
+## [5.1.0](https://github.com/rapidez/image-resizer/releases/tag/5.1.0) - 2026-09-18
+
+### Added
+
+- Configurable image quality (#48)
+
 ## [5.0.3](https://github.com/rapidez/image-resizer/releases/tag/5.0.3) - 2026-03-17
 
 ### Fixed
