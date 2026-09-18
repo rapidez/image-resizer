@@ -11,6 +11,11 @@ return [
     // - imagick
     'driver' => env('RAPIDEZ_IMAGE_DRIVER', extension_loaded('imagick') ? 'imagick' : 'gd'),
 
+    // The compression quality (0-100) used when saving a resize. Without this,
+    // the image driver's own implicit default is used, which is often higher
+    // than needed and produces unnecessarily large downloads.
+    'quality' => 90,
+
     'sizes' => [
         '80x80',   // Thumbs
         '400',     // Product
