@@ -9,7 +9,7 @@ use Rapidez\ImageResizer\Controllers\ImageController;
 
 $patterns = [
     'placeholder' => '[^\/]+',
-    'file'        => '.*?\.[^\.]+',
+    'file'        => '.*?\.[^\.\/]+',
     'webp'        => '\.webp',
 ];
 
