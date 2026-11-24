@@ -1,6 +1,12 @@
 # Changelog 
 
-[Unreleased changes](https://github.com/rapidez/image-resizer/compare/5.1.0...5.1.0)
+[Unreleased changes](https://github.com/rapidez/image-resizer/compare/5.1.1...5.1.1)
+## [5.1.1](https://github.com/rapidez/image-resizer/releases/tag/5.1.1) - 2026-11-24
+
+### Fixed
+
+- Remove webp negative lookahead (#49)
+
 ## [5.1.0](https://github.com/rapidez/image-resizer/releases/tag/5.1.0) - 2026-09-18
 
 ### Added
